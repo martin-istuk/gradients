@@ -22,9 +22,8 @@
 <div
 	class="table"
 	#table
-	[style.gridTemplateColumns]="
-		'repeat(' + (constants.allColorSpaces.length + 1) + ', 1fr)'
-	"
+	[style.gridTemplateColumns]="'repeat(' + (constants.allColorSpaces.length + 1) + ', 1fr)'"
+	[style.gridTemplateRows]="'repeat(' + (constants.allInterpolationMethods.length + 1) + ', 1fr)'"
 >
 	<div></div>
 
@@ -36,20 +35,7 @@
 		<div class="method-label">{{ method }}</div>
 
 		@for (space of constants.allColorSpaces; track $index) {
-			<div
-				class="gradient"
-				[style.background]="
-					'linear-gradient(' +
-					direction() +
-					' in ' +
-					method +
-					', ' +
-					values().startColor +
-					', ' +
-					values().endColor +
-					')'
-				"
-			></div>
+			<div class="gradient" [style.background]="getGradient(method, space)"></div>
 		}
 	}
 </div>

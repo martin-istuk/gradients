@@ -52,7 +52,4 @@ const cssColorFunctionSpaces = [
 	"xyz-d65", // alias "xyz"
 ] as const;
 
-export const allColorSpaces = [
-	...colorStopSpaces,
-	...cssColorFunctionSpaces.map((space) => "color(" + space),
-] as const;
+export const allColorSpaces = [...colorStopSpaces, ...cssColorFunctionSpaces] as const;

@@ -64,8 +64,10 @@ input {
 
 .color-stop-label,
 .method-label {
-	padding: 16px;
+	padding: 4px;
 	font-size: 10px;
+	text-align: center;
+	text-transform: uppercase;
 }
 
 .gradient {
