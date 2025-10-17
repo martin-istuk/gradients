@@ -1,0 +1,72 @@
+:host {
+	display: grid;
+	grid-template-columns: min-content auto;
+	grid-template-rows: min-content auto;
+	gap: 8px;
+	align-items: center;
+	height: 100%;
+	padding: 8px;
+}
+
+.top {
+	grid-column: 2;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+button {
+	display: grid;
+	grid-template-columns: auto auto;
+	gap: 8px;
+	border-radius: 9999px;
+	padding: 8px 16px;
+	background: var(--primary);
+	color: white;
+	cursor: pointer;
+
+	&:hover,
+	&:active {
+		filter: brightness(0.9);
+	}
+}
+
+form {
+	display: grid;
+	grid-template-columns: auto auto;
+	gap: 8px;
+}
+
+input {
+	border-radius: 9999px;
+	height: 40px;
+	padding: 8px;
+	background: var(--primary);
+}
+
+.label-top {
+	flex-grow: 1;
+	text-align: center;
+}
+
+.label-left {
+	writing-mode: sideways-lr;
+}
+
+.table {
+	grid-column: 2;
+	display: grid;
+	align-items: center;
+	border: 1px solid black;
+	height: 100%;
+}
+
+.color-stop-label,
+.method-label {
+	padding: 16px;
+	font-size: 10px;
+}
+
+.gradient {
+	height: 100%;
+}

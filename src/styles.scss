@@ -1,0 +1,76 @@
+*,
+*::before,
+*::after {
+	margin: 0;
+	border: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font: inherit;
+	font-family: "Noto Sans";
+	-webkit-font-smoothing: antialiased; // Smoother rendering on macOS
+	-moz-osx-font-smoothing: grayscale; // Smoother rendering on macOS Firefox
+}
+
+html,
+body {
+	max-width: 100%;
+	overflow-x: clip;
+	font-size: 100%;
+	overscroll-behavior-y: none;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	min-height: 100%;
+}
+
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}
+
+ol,
+ul {
+	list-style: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+hr {
+	border-bottom: 1px solid black;
+}
+
+img {
+	vertical-align: middle;
+}
+
+@mixin min-width($res) {
+	@media screen and (min-width: $res) {
+		@content;
+	}
+}
+
+html,
+body {
+	height: 100%;
+}
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+:root {
+	--primary: oklch(from #6f00ff l c h);
+}

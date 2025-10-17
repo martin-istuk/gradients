@@ -1,0 +1,55 @@
+<section class="top">
+	<p class="label-top">Color functions for gradient color stops</p>
+
+	<button (click)="rotate()">
+		Rotate
+		<span class="material-symbols-outlined">rotate_90_degrees_cw</span>
+	</button>
+
+	<button (click)="reset()">
+		Reset
+		<span class="material-symbols-outlined">format_color_reset</span>
+	</button>
+
+	<form [formGroup]="form">
+		<input type="color" formControlName="startColor" value="#ffffff" />
+		<input type="color" formControlName="endColor" value="#0000ff" />
+	</form>
+</section>
+
+<p class="label-left">Color interpolation methods for gradient midtones</p>
+
+<div
+	class="table"
+	#table
+	[style.gridTemplateColumns]="
+		'repeat(' + (constants.allColorSpaces.length + 1) + ', 1fr)'
+	"
+>
+	<div></div>
+
+	@for (space of constants.allColorSpaces; track $index) {
+		<div class="color-stop-label">{{ space }}</div>
+	}
+
+	@for (method of constants.allInterpolationMethods; track $index) {
+		<div class="method-label">{{ method }}</div>
+
+		@for (space of constants.allColorSpaces; track $index) {
+			<div
+				class="gradient"
+				[style.background]="
+					'linear-gradient(' +
+					direction() +
+					' in ' +
+					method +
+					', ' +
+					values().startColor +
+					', ' +
+					values().endColor +
+					')'
+				"
+			></div>
+		}
+	}
+</div>
