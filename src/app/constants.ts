@@ -1,45 +1,36 @@
 const rectangularColorSpaces = [
-	"srgb", // blue bug
-	"srgb-linear", // too light
-	"display-p3", // same as "srbg"
-	"a98-rgb", // 1% lighter than "srbg"
-	"prophoto-rgb", // too light
-	"rec2020", // blue bug
-	"lab", // blue bug, red bug
+	"srgb",
+	"srgb-linear",
+	"display-p3",
+	"a98-rgb",
+	"prophoto-rgb",
+	"rec2020",
+	"lab",
 	"oklab",
-	"xyz-d50", // too light
-	"xyz-d65", // alias "xyz", too light
+	"xyz-d50",
+	"xyz-d65",
 ] as const;
 
-const polarColorSpaces = [
-	"hsl", // too grey & extra colors
-	"hwb", // too light & extra colors
-	"lch", // extra colors
-	"oklch", // blue bug, red bug
-] as const;
+const polarColorSpaces = ["hsl", "hwb", "lch", "oklch"] as const;
 
 const hueInterpolationMethods = [
-	"shorter hue",
-	// "longer hue", // specific use-case
-	// "increasing hue", // specific use-case
-	// "decreasing hue", // specific use-case
+	// Default:
+	// "shorter hue",
+	// Specific use-case:
+	// "longer hue",
+	// "increasing hue",
+	// "decreasing hue",
 ] as const;
 
 export const allInterpolationMethods = [
 	...rectangularColorSpaces,
-	...polarColorSpaces.flatMap((space) =>
-		hueInterpolationMethods.map((method) => `${space} ${method}`)
-	),
+	// ...polarColorSpaces.flatMap((space) =>
+	// 	hueInterpolationMethods.map((method) => `${space} ${method}`)
+	// ),
+	...polarColorSpaces,
 ] as const;
 
-const colorStopSpaces = [
-	"rgb",
-	"hsl",
-	"lab", // extra colors
-	"lch", // extra colors
-	"oklab",
-	"oklch", // extra colors
-] as const;
+export const colorStopSpaces = ["rgb", "hsl", "hwb", "lab", "lch", "oklab", "oklch"] as const;
 
 const cssColorFunctionSpaces = [
 	"srgb",

@@ -1,12 +1,12 @@
-import { Component, computed, ElementRef, inject, signal, viewChild } from "@angular/core";
+import { Component, ElementRef, inject, signal, viewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { toSignal } from "@angular/core/rxjs-interop";
 
 import { debounceTime } from "rxjs";
+import Color from "colorjs.io";
 
 import * as constants from "./constants";
-import Color from "colorjs.io";
 
 @Component({
 	selector: "app-root",
@@ -20,7 +20,6 @@ export class App {
 	private fb = inject(FormBuilder);
 
 	public form = this.fb.group({
-		borders: [false],
 		startColor: ["#ffffff", [Validators.required]],
 		endColor: ["#0000ff", [Validators.required]],
 	});
@@ -29,8 +28,7 @@ export class App {
 		initialValue: this.form.value,
 	});
 
-	public borders = computed(()=> this.values().borders);
-
+	public showBorders = false;
 	public direction = "to right";
 
 	public constants = constants;
@@ -44,6 +42,15 @@ export class App {
 
 	public reset(): void {
 		window.location.reload();
+	}
+
+	public borders(): void {
+		this.showBorders = !this.showBorders;
+	}
+
+	public getColorFunctionLabel(space: string): string {
+		const dedicatedCssColorFunctions: Array<string> = [...this.constants.colorStopSpaces];
+		return dedicatedCssColorFunctions.includes(space) ? `${space}()` : `color('${space}')`;
 	}
 
 	private table = viewChild.required<ElementRef<HTMLDivElement>>("table");
@@ -98,7 +105,8 @@ export class App {
 // exception and is built manually.
 const legendColorJS = {
 	"rgb": "srgb", // CSS function rgb()
-	"hsl": "hsl", // CSS function hsl(), browser automatically converts it to rgb()
+	"hsl": "hsl", // CSS function hsl(),
+	"hwb": "hwb", // CSS function hwb(),
 	"lab": "lab", // CSS function lab()
 	"lch": "lch", // CSS function lch()
 	"oklab": "oklab", // CSS function oklab()

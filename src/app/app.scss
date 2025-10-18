@@ -1,32 +1,21 @@
-:host {
+// MARK: top
+.top {
 	display: grid;
-	grid-template-columns: min-content auto;
-	grid-template-rows: min-content auto;
+	grid-template-columns: min-content 1fr;
+	grid-template-rows: min-content 1fr;
 	gap: 8px;
 	align-items: center;
-	height: 100%;
 	padding: 8px;
-	background: #cccccc;
 }
 
-.top {
+.controls {
 	grid-column: 1 / span 2;
-
-	form {
-		display: flex;
-		align-items: center;
-		gap: 16px;
-		width: 100%;
-	}
-
-	label {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-	}
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 
-button {
+.control-btn {
 	display: grid;
 	grid-template-columns: auto auto;
 	gap: 8px;
@@ -50,8 +39,9 @@ form {
 
 input {
 	border-radius: 9999px;
+	width: 120px;
 	height: 40px;
-	padding: 8px;
+	padding: 6px;
 	background: var(--primary);
 }
 
@@ -69,16 +59,24 @@ input {
 	display: grid;
 	align-items: center;
 	justify-items: center;
+	width: 100%;
 	height: 100%;
+	min-height: 600px;
 }
 
 .color-stop-btn,
 .method-btn {
+	margin: 1px;
 	border-radius: 4px;
+	width: calc(100% - 4px);
+	height: calc(100% - 4px);
+	min-height: 40px;
+	background: var(--primary);
 	padding: 4px;
+	color: white;
 	font-size: 10px;
 	text-align: center;
-	text-transform: uppercase;
+	cursor: pointer;
 
 	&:hover {
 		background: red;
@@ -88,4 +86,96 @@ input {
 .gradient {
 	width: 100%;
 	height: 100%;
+}
+
+.note {
+	margin: 0 64px;
+	font-size: 12px;
+	color: rgb(59, 59, 59);
+}
+
+// MARK: bottom
+.bottom {
+	margin: auto;
+	max-width: 1000px;
+	padding-bottom: 140px;
+}
+
+.title {
+	margin: 64px 0 8px;
+	font-weight: 700;
+	font-size: 32px;
+}
+
+.code-box {
+	margin: 16px 0;
+	border-radius: 8px;
+	background: #333333;
+	padding: 16px;
+	color: white;
+	font-family: monospace;
+}
+
+.direction {
+	color: rgb(255, 129, 150);
+	font: inherit;
+}
+
+.method {
+	color: limegreen;
+	font: inherit;
+}
+
+.color-stop {
+	color: yellow;
+	font: inherit;
+}
+
+.list-lvl-1 {
+	list-style: upper-roman inside;
+}
+
+.list-lvl-2 {
+	padding: 0 64px;
+	list-style: decimal;
+}
+
+.subtitle {
+	margin: 16px 0;
+	font-weight: 700;
+	font-size: 24px;
+}
+
+li {
+	margin-bottom: 8px;
+}
+
+.code {
+	font: inherit;
+	font-family: monospace;
+}
+
+.blue-bug {
+	margin: 16px 64px;
+
+	.oklch,
+	.oklab {
+		height: 50px;
+		padding: 8px;
+		font-size: 14px;
+		background: linear-gradient(
+			to right in oklch,
+			color(xyz-d65 0.95 1 1.09),
+			color(xyz-d65 0.18 0.072 0.951)
+		);
+	}
+
+	.oklab {
+		border-top: 1px solid black;
+		background: linear-gradient(
+			to right in oklab,
+			color(xyz-d65 0.95 1 1.09),
+			color(xyz-d65 0.18 0.072 0.951)
+		);
+	}
 }

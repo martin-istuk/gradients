@@ -25,6 +25,7 @@ html {
 
 body {
 	min-height: 100%;
+	background: #cccccc;
 }
 
 p,
@@ -72,5 +73,5 @@ body {
 }
 
 :root {
-	--primary: oklch(from #6f00ff l c h);
+	--primary: oklch(from #5b00d1 l c h);
 }

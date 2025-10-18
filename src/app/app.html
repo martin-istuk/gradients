@@ -1,65 +1,161 @@
-<section class="top">
-	<form [formGroup]="form">
-		<button (click)="rotate()">
-			Rotate
-			<span class="material-symbols-outlined">rotate_90_degrees_cw</span>
-		</button>
-
-		<button (click)="reset()">
+<div class="top">
+	<div class="controls">
+		<button class="control-btn" (click)="reset()">
 			Reset
 			<span class="material-symbols-outlined">format_color_reset</span>
 		</button>
 
-		<label for="borders">
-			<input type="checkbox" formControlName="borders" id="borders" [value]="borders()" />
-			<span>Show borders</span>
-		</label>
+		<button class="control-btn" (click)="rotate()">
+			Rotate
+			<span class="material-symbols-outlined">rotate_90_degrees_cw</span>
+		</button>
+
+		<button class="control-btn" (click)="borders()">
+			Borders
+			<span class="material-symbols-outlined">pageless</span>
+		</button>
 
 		<p class="label-top">Color functions for gradient color stops</p>
 
-		<input type="color" formControlName="startColor" value="#ffffff" />
-		<input type="color" formControlName="endColor" value="#0000ff" />
-	</form>
-</section>
+		<form [formGroup]="form">
+			<input type="color" formControlName="startColor" value="#ffffff" />
+			<input type="color" formControlName="endColor" value="#0000ff" />
+		</form>
+	</div>
 
-<p class="label-left">Color interpolation methods for gradient midtones</p>
+	<p class="label-left">Color spaces for gradient midtones</p>
 
-<div
-	#table
-	class="table"
-	[style.gridTemplateColumns]="'min-content repeat(' + (columnCount() - 1) + ', 1fr)'"
-	[style.gridTemplateRows]="'min-content repeat(' + (rowCount() - 1) + ', 1fr)'"
->
-	<div></div>
-
-	@for (space of constants.allColorSpaces; track $index) {
-		<button
-			class="color-stop-btn"
-			[attr.data-space]="'space-' + space"
-			(click)="removeColorStop(space)"
-		>
-			{{ space }}
-		</button>
-	}
-
-	@for (method of constants.allInterpolationMethods; track $index) {
-		<button
-			class="method-btn"
-			[attr.data-method]="'method-' + method"
-			(click)="removeColorMethod(method)"
-		>
-			{{ method }}
-		</button>
+	<div
+		#table
+		class="table"
+		[style.gridTemplateColumns]="'min-content repeat(' + (columnCount() - 1) + ', 1fr)'"
+		[style.gridTemplateRows]="'min-content repeat(' + (rowCount() - 1) + ', 1fr)'"
+	>
+		<div></div>
 
 		@for (space of constants.allColorSpaces; track $index) {
-			<div
-				class="gradient"
+			<button
+				class="color-stop-btn"
 				[attr.data-space]="'space-' + space"
-				[attr.data-method]="'method-' + method"
-				[style.background]="getGradient(method, space)"
-				[style.border]="!borders() ? null : 'solid black'"
-				[style.border-width]="!borders() ? null : '0 1px 1px 0'"
-			></div>
+				(click)="removeColorStop(space)"
+			>
+				{{ getColorFunctionLabel(space) }}
+			</button>
 		}
-	}
+
+		@for (method of constants.allInterpolationMethods; track $index) {
+			<button
+				class="method-btn"
+				[attr.data-method]="'method-' + method"
+				(click)="removeColorMethod(method)"
+			>
+				{{ method }}
+			</button>
+
+			@for (space of constants.allColorSpaces; track $index) {
+				<div
+					class="gradient"
+					[attr.data-space]="'space-' + space"
+					[attr.data-method]="'method-' + method"
+					[style.background]="getGradient(method, space)"
+					[style.border]="showBorders ? 'solid black' : null"
+					[style.border-width]="showBorders ? '0 1px 1px 0' : null"
+				></div>
+			}
+		}
+	</div>
+</div>
+
+<p class="note">All polar color spaces display "shorter hue" as hue interpolation method, which is the default CSS value. Other 3 values are not listed as they have specific use-cases and are probably not what you need.</p>
+
+<div class="bottom">
+	<h2 class="title">TLDR</h2>
+
+	<p class="text">
+		For optimal consistency across all hues, brightness and saturation levels, use "oklch" as the
+		color interpolation method and use the CSS "color()" function with "xyz-d65" color space for
+		defining color stops.
+	</p>
+
+	<p class="code-box">
+		background: linear-gradient(
+		<span class="direction">&lt;direction&gt;</span>
+		in
+		<span class="method">&lt;interpolation-method&gt;</span>
+		,
+		<span class="color-stop">&lt;color-stop-1&gt;</span>
+		,
+		<span class="color-stop">&lt;color-stop-2&gt;</span>
+		);
+
+		<br />
+
+		background: linear-gradient(
+		<span class="direction">to right</span>
+		in
+		<span class="method">oklch</span>
+		,
+		<span class="color-stop">color(xyz-d65 0.95 1 1.09)</span>
+		,
+		<span class="color-stop">color(xyz-d65 0.18 0.072 0.951)</span>
+		);
+	</p>
+
+	<h2 class="title">In detail</h2>
+
+	<ol class="list-lvl-1">
+		<li class="subtitle">Default values</li>
+		<ol class="list-lvl-2">
+			<li>
+				Colors defined with hex values are "rgb()" colors, it's just a different syntax for the same
+				color space.
+			</li>
+			<li>
+				If no color interpolation method is defined, and all color stops are defined as "rgb()" or
+				"hsl()", the default interpolation method is "srgb". However, if at least one color stop is
+				defined in any other way, the default method is "oklab".
+			</li>
+		</ol>
+
+		<li class="subtitle">Recomendations</li>
+		<ol class="list-lvl-2">
+			<li>
+				As stated in TLDR, the recomended approach is to use "oklch" as interpolation color space
+				and "color(xyz-d65 . . .)" as color stops, as it produces the most accurate results across
+				many hues, brightness and saturation levels. Alternatively, use "oklab" for interpolation as
+				it produces a bit different results and it might fit your needs more, depending on the
+				colors used. Keep the color function the same.
+			</li>
+			<li>
+				Using relative colors in "color()" function with "from" keyword is not recomended, as the
+				conversion is not perfect. ADD RELATIVE-BUG EXAMPLE IN BUGS SECTION
+			</li>
+			<li>
+				Using "hsl()" or "hbw()" as a color function is discouraged in any CSS style rule. The
+				number of colors in "rgb()" color space is 16.7 million, while "hsl()" and "hwb()" color
+				spaces have 3.6 million colors, only 21% of "rgb()". Browsers convert it to "rgb()" to be
+				able to physically display in on the screen, which, in addition to having less colors, may
+				also produce rounding errors.
+			</li>
+			<li>
+				Using "hsl" or "hwb" as color space for interpolation is even more discouraged. They produce
+				inconsistent midtones in combination with any color function and in most cases even adds
+				extra colors to gradients.
+			</li>
+		</ol>
+
+		<li class="subtitle">Bugs</li>
+		<ol class="list-lvl-2">
+			<li>
+				As stated in TLDR, the recomended approach is to use "oklch" as interpolation color space
+				This does not produce perfect results, though; the blue midtones may take on a slight teal
+				hue. The only viable alternative is using "oklab" for interpolation, which produces a slight
+				purple tone on blue midtones. Pick your poison.
+				<div class="blue-bug">
+					<div class="oklch">oklch</div>
+					<div class="oklab">oklab</div>
+				</div>
+			</li>
+		</ol>
+	</ol>
 </div>
