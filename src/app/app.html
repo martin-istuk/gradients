@@ -17,13 +17,20 @@
 
 		<p class="label-top">Color functions for gradient color stops</p>
 
-		<form [formGroup]="form">
-			<input type="color" formControlName="startColor" value="#ffffff" />
-			<input type="color" formControlName="endColor" value="#0000ff" />
+		<form [formGroup]="form" class="form">
+			<label for="startColor">
+				Start color:
+				<input type="color" formControlName="startColor" id="startColor" value="#ffffff" />
+			</label>
+
+			<label for="endColor">
+				End color:
+				<input type="color" formControlName="endColor" id="endColor" value="#0000ff" />
+			</label>
 		</form>
 	</div>
 
-	<p class="label-left">Color spaces for gradient midtones</p>
+	<p class="label-left">Interpolation color spaces for gradient mid-tones</p>
 
 	<div
 		#table
@@ -36,28 +43,28 @@
 		@for (space of constants.allColorSpaces; track $index) {
 			<button
 				class="color-stop-btn"
-				[attr.data-space]="'space-' + space"
+				[attr.data-color-stop-space]="'data-color-stop-space-' + space"
 				(click)="removeColorStop(space)"
 			>
 				{{ getColorFunctionLabel(space) }}
 			</button>
 		}
 
-		@for (method of constants.allInterpolationMethods; track $index) {
+		@for (interpolationSpace of constants.allInterpolationSpaces; track $index) {
 			<button
-				class="method-btn"
-				[attr.data-method]="'method-' + method"
-				(click)="removeColorMethod(method)"
+				class="interpolation-space-btn"
+				[attr.data-interpolation-space]="'data-interpolation-space-' + interpolationSpace"
+				(click)="removeColorInterpolationSpace(interpolationSpace)"
 			>
-				{{ method }}
+				{{ interpolationSpace }}
 			</button>
 
 			@for (space of constants.allColorSpaces; track $index) {
 				<div
 					class="gradient"
-					[attr.data-space]="'space-' + space"
-					[attr.data-method]="'method-' + method"
-					[style.background]="getGradient(method, space)"
+					[attr.data-color-stop-space]="'data-color-stop-space-' + space"
+					[attr.data-interpolation-space]="'data-interpolation-space-' + interpolationSpace"
+					[style.background]="getGradient(interpolationSpace, space)"
 					[style.border]="showBorders ? 'solid black' : null"
 					[style.border-width]="showBorders ? '0 1px 1px 0' : null"
 				></div>
@@ -66,22 +73,32 @@
 	</div>
 </div>
 
-<p class="note">All polar color spaces display "shorter hue" as hue interpolation method, which is the default CSS value. Other 3 values are not listed as they have specific use-cases and are probably not what you need.</p>
+<p class="note">
+	All polar color spaces display "shorter hue" as hue interpolation method, which is the default CSS
+	value. Other 3 values are not listed as they have specific use-cases and are probably not what you
+	need. For more info, visit
+	<a
+		href="https://developer.mozilla.org/en-US/docs/Web/CSS/hue-interpolation-method"
+		target="_blank"
+	>
+		this link
+	</a>
+	.
+</p>
 
 <div class="bottom">
-	<h2 class="title">TLDR</h2>
+	<h2 class="title">TL;DR</h2>
 
 	<p class="text">
-		For optimal consistency across all hues, brightness and saturation levels, use "oklch" as the
-		color interpolation method and use the CSS "color()" function with "xyz-d65" color space for
-		defining color stops.
+		For consistent results across all hues, brightness levels, and saturations, use oklch as the
+		interpolation color space and employ the CSS color(xyz-d65 …) function for specifying colors.
 	</p>
 
 	<p class="code-box">
 		background: linear-gradient(
 		<span class="direction">&lt;direction&gt;</span>
 		in
-		<span class="method">&lt;interpolation-method&gt;</span>
+		<span class="interpolation-space">&lt;interpolation-space&gt;</span>
 		,
 		<span class="color-stop">&lt;color-stop-1&gt;</span>
 		,
@@ -93,7 +110,7 @@
 		background: linear-gradient(
 		<span class="direction">to right</span>
 		in
-		<span class="method">oklch</span>
+		<span class="interpolation-space">oklch</span>
 		,
 		<span class="color-stop">color(xyz-d65 0.95 1 1.09)</span>
 		,
@@ -107,55 +124,61 @@
 		<li class="subtitle">Default values</li>
 		<ol class="list-lvl-2">
 			<li>
-				Colors defined with hex values are "rgb()" colors, it's just a different syntax for the same
-				color space.
+				Colors expressed in hexadecimal notation belong to the RGB color space; the HEX format is
+				merely an alternative syntax for representing the same RGB values.
 			</li>
 			<li>
-				If no color interpolation method is defined, and all color stops are defined as "rgb()" or
-				"hsl()", the default interpolation method is "srgb". However, if at least one color stop is
-				defined in any other way, the default method is "oklab".
+				If no interpolation space is specified, gradients whose color stops are defined exclusively
+				with the rgb(), hsl(), or hwb() functions default to the sRGB interpolation space. For all
+				other cases, the gradient defaults to the OKLab interpolation space.
 			</li>
 		</ol>
 
 		<li class="subtitle">Recomendations</li>
 		<ol class="list-lvl-2">
 			<li>
-				As stated in TLDR, the recomended approach is to use "oklch" as interpolation color space
-				and "color(xyz-d65 . . .)" as color stops, as it produces the most accurate results across
-				many hues, brightness and saturation levels. Alternatively, use "oklab" for interpolation as
-				it produces a bit different results and it might fit your needs more, depending on the
-				colors used. Keep the color function the same.
+				As outlined in the TL;DR, the recommended workflow is to use oklch as the interpolation
+				color space and color(xyz-d65 …) for defining color stops. This combination delivers the
+				most accurate results across a wide range of hues, brightness levels, and saturations.
+				Alternatively, you can employ oklab as the interpolation space. While it yields slightly
+				different tonal characteristics, it may better suit specific palettes or design goals. In
+				either case, keep the same color-stop function (color(xyz-d65 …)) for best results.
 			</li>
 			<li>
-				Using relative colors in "color()" function with "from" keyword is not recomended, as the
-				conversion is not perfect. ADD RELATIVE-BUG EXAMPLE IN BUGS SECTION
+				Using relative colors with the color() function's from keyword is not recommended because
+				the conversion is imperfect.
 			</li>
 			<li>
-				Using "hsl()" or "hbw()" as a color function is discouraged in any CSS style rule. The
-				number of colors in "rgb()" color space is 16.7 million, while "hsl()" and "hwb()" color
-				spaces have 3.6 million colors, only 21% of "rgb()". Browsers convert it to "rgb()" to be
-				able to physically display in on the screen, which, in addition to having less colors, may
-				also produce rounding errors.
+				Using the hsl() or hwb() color functions in CSS is discouraged. The RGB color space provides
+				roughly 16.7 million distinct colors, whereas HSL and HWB each cover only about 3.6
+				million—a mere ≈ 21 % of the RGB gamut. Consequently, browsers must convert HSL/HWB values
+				to RGB for rendering, which not only limits the available color palette but can also
+				introduce rounding errors during the conversion process.
 			</li>
 			<li>
-				Using "hsl" or "hwb" as color space for interpolation is even more discouraged. They produce
-				inconsistent midtones in combination with any color function and in most cases even adds
-				extra colors to gradients.
+				Using HSL or HWB as the interpolation color space is strongly discouraged. These spaces
+				frequently produce inconsistent mid-tone results when combined with any color function, and
+				they often introduce unintended colors into gradients.
 			</li>
 		</ol>
 
 		<li class="subtitle">Bugs</li>
 		<ol class="list-lvl-2">
 			<li>
-				As stated in TLDR, the recomended approach is to use "oklch" as interpolation color space
-				This does not produce perfect results, though; the blue midtones may take on a slight teal
-				hue. The only viable alternative is using "oklab" for interpolation, which produces a slight
-				purple tone on blue midtones. Pick your poison.
+				As outlined in the TL;DR, the recommended approach is to use OKLCH as the interpolation
+				color space. While this generally yields superior results, blue mid-tones can acquire a
+				subtle teal hue. The only practical alternative is OKLAB , which tends to introduce a faint
+				purple tint in blue mid-tones. Additionally, rectangular color spaces like OKLAB interpolate
+				colors along a straight line, whereas polar color spaces like OKLCH interpolate in a
+				circular manner around the hue wheel. Both approaches are viable; choose the option that
+				best aligns with your visual requirements.
 				<div class="blue-bug">
 					<div class="oklch">oklch</div>
 					<div class="oklab">oklab</div>
 				</div>
 			</li>
+			<li>ADD lightpink-to-blue BUG EXAMPLE IN BUGS SECTION</li>
+			<li>ADD RELATIVE-BUG EXAMPLE IN BUGS SECTION</li>
 		</ol>
 	</ol>
 </div>

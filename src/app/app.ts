@@ -34,7 +34,7 @@ export class App {
 	public constants = constants;
 
 	public columnCount = signal(constants.allColorSpaces.length + 1);
-	public rowCount = signal(constants.allInterpolationMethods.length + 1);
+	public rowCount = signal(constants.allInterpolationSpaces.length + 1);
 
 	public rotate(): void {
 		this.direction = this.direction === "to right" ? "to bottom" : "to right";
@@ -59,44 +59,44 @@ export class App {
 		const table = this.table().nativeElement;
 		Array.from(table.children).forEach((element) => {
 			const div = element as HTMLDivElement;
-			const dataSpace = div.attributes.getNamedItem("data-space")?.value;
-			if (dataSpace === `space-${space}`) {
+			const dataSpace = div.attributes.getNamedItem("data-color-stop-space")?.value;
+			if (dataSpace === `data-color-stop-space-${space}`) {
 				div.remove();
 			}
 		});
 		this.columnCount.set(this.columnCount() - 1);
 	}
 
-	public removeColorMethod(method: string): void {
+	public removeColorInterpolationSpace(space: string): void {
 		const table = this.table().nativeElement;
 		Array.from(table.children).forEach((element) => {
 			const div = element as HTMLDivElement;
-			const dataMethod = div.attributes.getNamedItem("data-method")?.value;
-			if (dataMethod === `method-${method}`) {
+			const dataSpace = div.attributes.getNamedItem("data-interpolation-space")?.value;
+			if (dataSpace === `data-interpolation-space-${space}`) {
 				div.remove();
 			}
 		});
 		this.rowCount.set(this.rowCount() - 1);
 	}
 
-	public getGradient(method: string, space: string): string {
+	public getGradient(interpolationSpace: string, colorStopSpace: string): string {
 		console.log("getGradient()");
 		let startColor = new Color(this.values().startColor as string).to(
-			legendColorJS[space as keyof typeof legendColorJS]
+			legendColorJS[colorStopSpace as keyof typeof legendColorJS]
 		);
 		let endColor = new Color(this.values().endColor as string).to(
-			legendColorJS[space as keyof typeof legendColorJS]
+			legendColorJS[colorStopSpace as keyof typeof legendColorJS]
 		);
 
 		let c1 = startColor.toString({ precision: 3 });
 		let c2 = endColor.toString({ precision: 3 });
 
-		if (space === "srgb") {
+		if (colorStopSpace === "srgb") {
 			c1 = `color(srgb ${startColor.srgb["r"]} ${startColor.srgb["g"]} ${startColor.srgb["b"]})`;
 			c2 = `color(srgb ${endColor.srgb["r"]} ${endColor.srgb["g"]} ${endColor.srgb["b"]})`;
 		}
 
-		return `linear-gradient(${this.direction} in ${method}, ${c1}, ${c2})`;
+		return `linear-gradient(${this.direction} in ${interpolationSpace}, ${c1}, ${c2})`;
 	}
 }
 

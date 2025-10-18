@@ -22,7 +22,7 @@ const hueInterpolationMethods = [
 	// "decreasing hue",
 ] as const;
 
-export const allInterpolationMethods = [
+export const allInterpolationSpaces = [
 	...rectangularColorSpaces,
 	// ...polarColorSpaces.flatMap((space) =>
 	// 	hueInterpolationMethods.map((method) => `${space} ${method}`)
