@@ -1,4 +1,4 @@
-import { Component, inject, signal } from "@angular/core";
+import { Component, computed, ElementRef, inject, signal, viewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { toSignal } from "@angular/core/rxjs-interop";
@@ -20,6 +20,7 @@ export class App {
 	private fb = inject(FormBuilder);
 
 	public form = this.fb.group({
+		borders: [false],
 		startColor: ["#ffffff", [Validators.required]],
 		endColor: ["#0000ff", [Validators.required]],
 	});
@@ -28,20 +29,51 @@ export class App {
 		initialValue: this.form.value,
 	});
 
-	public direction = signal<"to right" | "to bottom">("to right");
+	public borders = computed(()=> this.values().borders);
+
+	public direction = "to right";
 
 	public constants = constants;
 
+	public columnCount = signal(constants.allColorSpaces.length + 1);
+	public rowCount = signal(constants.allInterpolationMethods.length + 1);
+
 	public rotate(): void {
-		this.direction.set(this.direction() === "to right" ? "to bottom" : "to right");
+		this.direction = this.direction === "to right" ? "to bottom" : "to right";
 	}
 
 	public reset(): void {
 		window.location.reload();
 	}
 
+	private table = viewChild.required<ElementRef<HTMLDivElement>>("table");
+
+	public removeColorStop(space: string): void {
+		const table = this.table().nativeElement;
+		Array.from(table.children).forEach((element) => {
+			const div = element as HTMLDivElement;
+			const dataSpace = div.attributes.getNamedItem("data-space")?.value;
+			if (dataSpace === `space-${space}`) {
+				div.remove();
+			}
+		});
+		this.columnCount.set(this.columnCount() - 1);
+	}
+
+	public removeColorMethod(method: string): void {
+		const table = this.table().nativeElement;
+		Array.from(table.children).forEach((element) => {
+			const div = element as HTMLDivElement;
+			const dataMethod = div.attributes.getNamedItem("data-method")?.value;
+			if (dataMethod === `method-${method}`) {
+				div.remove();
+			}
+		});
+		this.rowCount.set(this.rowCount() - 1);
+	}
+
 	public getGradient(method: string, space: string): string {
-		const direction = this.direction();
+		console.log("getGradient()");
 		let startColor = new Color(this.values().startColor as string).to(
 			legendColorJS[space as keyof typeof legendColorJS]
 		);
@@ -57,11 +89,11 @@ export class App {
 			c2 = `color(srgb ${endColor.srgb["r"]} ${endColor.srgb["g"]} ${endColor.srgb["b"]})`;
 		}
 
-		return `linear-gradient(${direction} in ${method}, ${c1}, ${c2})`;
+		return `linear-gradient(${this.direction} in ${method}, ${c1}, ${c2})`;
 	}
 }
 
-// npm package "colorjs" had color space labels different than in CSS spec,
+// npm package "colorjs" has color space labels different than in CSS spec,
 // this is just a mapping object for colorjs, while "srgb" space has an
 // exception and is built manually.
 const legendColorJS = {

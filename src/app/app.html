@@ -1,17 +1,22 @@
 <section class="top">
-	<p class="label-top">Color functions for gradient color stops</p>
-
-	<button (click)="rotate()">
-		Rotate
-		<span class="material-symbols-outlined">rotate_90_degrees_cw</span>
-	</button>
-
-	<button (click)="reset()">
-		Reset
-		<span class="material-symbols-outlined">format_color_reset</span>
-	</button>
-
 	<form [formGroup]="form">
+		<button (click)="rotate()">
+			Rotate
+			<span class="material-symbols-outlined">rotate_90_degrees_cw</span>
+		</button>
+
+		<button (click)="reset()">
+			Reset
+			<span class="material-symbols-outlined">format_color_reset</span>
+		</button>
+
+		<label for="borders">
+			<input type="checkbox" formControlName="borders" id="borders" [value]="borders()" />
+			<span>Show borders</span>
+		</label>
+
+		<p class="label-top">Color functions for gradient color stops</p>
+
 		<input type="color" formControlName="startColor" value="#ffffff" />
 		<input type="color" formControlName="endColor" value="#0000ff" />
 	</form>
@@ -20,22 +25,41 @@
 <p class="label-left">Color interpolation methods for gradient midtones</p>
 
 <div
-	class="table"
 	#table
-	[style.gridTemplateColumns]="'repeat(' + (constants.allColorSpaces.length + 1) + ', 1fr)'"
-	[style.gridTemplateRows]="'repeat(' + (constants.allInterpolationMethods.length + 1) + ', 1fr)'"
+	class="table"
+	[style.gridTemplateColumns]="'min-content repeat(' + (columnCount() - 1) + ', 1fr)'"
+	[style.gridTemplateRows]="'min-content repeat(' + (rowCount() - 1) + ', 1fr)'"
 >
 	<div></div>
 
 	@for (space of constants.allColorSpaces; track $index) {
-		<div class="color-stop-label">{{ space }}</div>
+		<button
+			class="color-stop-btn"
+			[attr.data-space]="'space-' + space"
+			(click)="removeColorStop(space)"
+		>
+			{{ space }}
+		</button>
 	}
 
 	@for (method of constants.allInterpolationMethods; track $index) {
-		<div class="method-label">{{ method }}</div>
+		<button
+			class="method-btn"
+			[attr.data-method]="'method-' + method"
+			(click)="removeColorMethod(method)"
+		>
+			{{ method }}
+		</button>
 
 		@for (space of constants.allColorSpaces; track $index) {
-			<div class="gradient" [style.background]="getGradient(method, space)"></div>
+			<div
+				class="gradient"
+				[attr.data-space]="'space-' + space"
+				[attr.data-method]="'method-' + method"
+				[style.background]="getGradient(method, space)"
+				[style.border]="!borders() ? null : 'solid black'"
+				[style.border-width]="!borders() ? null : '0 1px 1px 0'"
+			></div>
 		}
 	}
 </div>

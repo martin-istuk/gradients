@@ -6,13 +6,24 @@
 	align-items: center;
 	height: 100%;
 	padding: 8px;
+	background: #cccccc;
 }
 
 .top {
-	grid-column: 2;
-	display: flex;
-	align-items: center;
-	gap: 16px;
+	grid-column: 1 / span 2;
+
+	form {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		width: 100%;
+	}
+
+	label {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
 }
 
 button {
@@ -58,16 +69,20 @@ input {
 	display: grid;
 	align-items: center;
 	justify-items: center;
-	border: 1px solid black;
 	height: 100%;
 }
 
-.color-stop-label,
-.method-label {
+.color-stop-btn,
+.method-btn {
+	border-radius: 4px;
 	padding: 4px;
 	font-size: 10px;
 	text-align: center;
 	text-transform: uppercase;
+
+	&:hover {
+		background: red;
+	}
 }
 
 .gradient {
