@@ -1,4 +1,10 @@
-import { Component, ElementRef, inject, signal, viewChild } from "@angular/core";
+import {
+	Component,
+	ElementRef,
+	inject,
+	signal,
+	viewChild,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { toSignal } from "@angular/core/rxjs-interop";
@@ -49,8 +55,12 @@ export class App {
 	}
 
 	public getColorFunctionLabel(space: string): string {
-		const dedicatedCssColorFunctions: Array<string> = [...this.constants.colorStopSpaces];
-		return dedicatedCssColorFunctions.includes(space) ? `${space}()` : `color('${space}')`;
+		const dedicatedCssColorFunctions: Array<string> = [
+			...this.constants.colorStopSpaces,
+		];
+		return dedicatedCssColorFunctions.includes(space)
+			? `${space}()`
+			: `color('${space}')`;
 	}
 
 	private table = viewChild.required<ElementRef<HTMLDivElement>>("table");
@@ -59,7 +69,9 @@ export class App {
 		const table = this.table().nativeElement;
 		Array.from(table.children).forEach((element) => {
 			const div = element as HTMLDivElement;
-			const dataSpace = div.attributes.getNamedItem("data-color-stop-space")?.value;
+			const dataSpace = div.attributes.getNamedItem(
+				"data-color-stop-space"
+			)?.value;
 			if (dataSpace === `data-color-stop-space-${space}`) {
 				div.remove();
 			}
@@ -71,7 +83,9 @@ export class App {
 		const table = this.table().nativeElement;
 		Array.from(table.children).forEach((element) => {
 			const div = element as HTMLDivElement;
-			const dataSpace = div.attributes.getNamedItem("data-interpolation-space")?.value;
+			const dataSpace = div.attributes.getNamedItem(
+				"data-interpolation-space"
+			)?.value;
 			if (dataSpace === `data-interpolation-space-${space}`) {
 				div.remove();
 			}
@@ -79,31 +93,47 @@ export class App {
 		this.rowCount.set(this.rowCount() - 1);
 	}
 
-	public getGradient(interpolationSpace: string, colorStopSpace: string): string {
-		console.log("getGradient()");
-		let startColor = new Color(this.values().startColor as string).to(
-			legendColorJS[colorStopSpace as keyof typeof legendColorJS]
-		);
-		let endColor = new Color(this.values().endColor as string).to(
-			legendColorJS[colorStopSpace as keyof typeof legendColorJS]
-		);
+	public getGradient(
+		interpolationSpace: string,
+		colorStopSpace: string
+	): string {
+		if (!colorStopSpace.includes("from ")) {
+			// css color functions
+			let startColor = new Color(this.values().startColor as string).to(
+				mapColorJS[colorStopSpace as keyof typeof mapColorJS]
+			);
+			let endColor = new Color(this.values().endColor as string).to(
+				mapColorJS[colorStopSpace as keyof typeof mapColorJS]
+			);
 
-		let c1 = startColor.toString({ precision: 3 });
-		let c2 = endColor.toString({ precision: 3 });
+			let c1 = startColor.toString({ precision: 3 });
+			let c2 = endColor.toString({ precision: 3 });
 
-		if (colorStopSpace === "srgb") {
-			c1 = `color(srgb ${startColor.srgb["r"]} ${startColor.srgb["g"]} ${startColor.srgb["b"]})`;
-			c2 = `color(srgb ${endColor.srgb["r"]} ${endColor.srgb["g"]} ${endColor.srgb["b"]})`;
+			if (colorStopSpace === "srgb") {
+				c1 = `color(srgb ${startColor.srgb["r"]} ${startColor.srgb["g"]} ${startColor.srgb["b"]})`;
+				c2 = `color(srgb ${endColor.srgb["r"]} ${endColor.srgb["g"]} ${endColor.srgb["b"]})`;
+			}
+			return `linear-gradient(${this.direction} in ${interpolationSpace}, ${c1}, ${c2})`;
+		} else {
+			// xyz-d65 with relative color construction referencing other color functions
+			const space = colorStopSpace.replace("from ", "").replace(" xyz-d65", "");
+			let startColor = new Color(this.values().startColor as string).to(
+				mapColorJS[space as keyof typeof mapColorJS]
+			);
+			let endColor = new Color(this.values().endColor as string).to(
+				mapColorJS[space as keyof typeof mapColorJS]
+			);
+			let c1 = startColor.toString({ precision: 3 });
+			let c2 = endColor.toString({ precision: 3 });
+			return `linear-gradient(${this.direction} in ${interpolationSpace}, color(from ${c1} xyz-d65 x y z), color(from ${c2} xyz-d65 x y z))`;
 		}
-
-		return `linear-gradient(${this.direction} in ${interpolationSpace}, ${c1}, ${c2})`;
 	}
 }
 
 // npm package "colorjs" has color space labels different than in CSS spec,
 // this is just a mapping object for colorjs, while "srgb" space has an
 // exception and is built manually.
-const legendColorJS = {
+const mapColorJS = {
 	"rgb": "srgb", // CSS function rgb()
 	"hsl": "hsl", // CSS function hsl(),
 	"hwb": "hwb", // CSS function hwb(),

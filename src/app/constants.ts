@@ -30,7 +30,15 @@ export const allInterpolationSpaces = [
 	...polarColorSpaces,
 ] as const;
 
-export const colorStopSpaces = ["rgb", "hsl", "hwb", "lab", "lch", "oklab", "oklch"] as const;
+export const colorStopSpaces = [
+	"rgb",
+	"hsl",
+	"hwb",
+	"lab",
+	"lch",
+	"oklab",
+	"oklch",
+] as const;
 
 const cssColorFunctionSpaces = [
 	"srgb",
@@ -43,4 +51,8 @@ const cssColorFunctionSpaces = [
 	"xyz-d65", // alias "xyz"
 ] as const;
 
-export const allColorSpaces = [...colorStopSpaces, ...cssColorFunctionSpaces] as const;
+export const allColorSpaces = [
+	...colorStopSpaces,
+	...cssColorFunctionSpaces,
+	...colorStopSpaces.map((space) => "from " + space + " xyz-d65"),
+] as const;
