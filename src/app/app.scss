@@ -99,7 +99,7 @@
 
 .note {
 	margin: auto;
-	max-width: 800px;
+	max-width: 840px;
 	font-size: 12px;
 	color: rgb(59, 59, 59);
 }
@@ -107,14 +107,32 @@
 // MARK: bottom
 .bottom {
 	margin: auto;
-	max-width: 1000px;
+	max-width: 840px;
 	padding-bottom: 140px;
 }
 
-.title {
-	margin: 32px 0 8px;
+.list-lvl-1 {
+	list-style: upper-roman inside;
+}
+
+.list-lvl-2 {
+	padding: 0 0 0 64px;
+	list-style: decimal outside;
+}
+
+.list-lvl-3 {
+	padding: 0 0 0 64px;
+	list-style: disc outside;
+}
+
+.list-headline {
 	font-weight: 700;
-	font-size: 32px;
+	font-size: 24px;
+}
+
+.list-item {
+	font-weight: 400;
+	font-size: 16px;
 }
 
 .code-box {
@@ -141,51 +159,93 @@
 	font: inherit;
 }
 
-.list-lvl-1 {
-	list-style: upper-roman inside;
-}
-
-.list-lvl-2 {
-	padding: 0 64px;
-	list-style: decimal;
-}
-
-.subtitle {
-	margin: 16px 0;
-	font-weight: 700;
-	font-size: 24px;
-}
-
-li {
-	margin-bottom: 8px;
-}
-
-.code {
-	font: inherit;
-	font-family: monospace;
-}
-
 .blue-bug {
 	margin: 16px 64px;
 
-	.oklch,
-	.oklab {
+	.oklab,
+	.oklch {
 		height: 50px;
 		padding: 8px;
 		font-size: 14px;
+		background: linear-gradient(
+			to right in oklab,
+			color(xyz-d65 0.95 1 1.09),
+			color(xyz-d65 0.18 0.072 0.951)
+		);
+	}
+
+	.oklch {
+		border-top: 1px solid black;
 		background: linear-gradient(
 			to right in oklch,
 			color(xyz-d65 0.95 1 1.09),
 			color(xyz-d65 0.18 0.072 0.951)
 		);
 	}
+}
 
-	.oklab {
-		border-top: 1px solid black;
+.lightpink-bug {
+	margin: 16px 64px;
+
+	.oklab,
+	.oklch {
+		height: 50px;
+		padding: 8px;
+		font-size: 14px;
 		background: linear-gradient(
 			to right in oklab,
-			color(xyz-d65 0.95 1 1.09),
+			color(xyz-d65 0.584 0.463 0.36),
 			color(xyz-d65 0.18 0.072 0.951)
 		);
+	}
+
+	.oklch {
+		border-top: 1px solid black;
+		background: linear-gradient(
+			to right in oklch,
+			color(xyz-d65 0.584 0.463 0.36),
+			color(xyz-d65 0.18 0.072 0.951)
+		);
+	}
+
+	.color-wheel {
+		position: relative;
+		margin: 16px auto;
+		width: 300px;
+		height: 300px;
+		border-radius: 9999px;
+		background:
+			radial-gradient(
+				in oklch,
+				oklch(100% 0.00011 271.152),
+				oklch(100% 0.00011 271.152 / 0) 50%
+			),
+			conic-gradient(
+				in oklch,
+				oklch(62.793% 0.25768 29.223),
+				oklch(96.798% 0.21094 109.783),
+				oklch(86.645% 0.29481 142.511),
+				oklch(90.541% 0.15458 194.807),
+				oklch(45.203% 0.3133 264.073),
+				oklch(70.166% 0.3226 328.352),
+				oklch(62.793% 0.25768 29.223)
+			);
+
+		.oklch-label {
+			position: absolute;
+			top: 60px;
+			left: 60px;
+		}
+
+		.oklab-label {
+			position: absolute;
+			top: 160px;
+			left: 90px;
+		}
+
+		svg {
+			width: 100%;
+			height: 100%;
+		}
 	}
 }

@@ -1,3 +1,5 @@
+<!-- MARK: top -->
+
 <div class="top">
 	<div class="controls">
 		<button class="control-btn" (click)="reset()">
@@ -108,51 +110,48 @@
 	.
 </p>
 
+<!-- MARK: bottom -->
+
 <div class="bottom">
-	<h2 class="title">TL;DR</h2>
-
-	<p class="text">
-		For consistent results across all hues, brightness levels, and saturations,
-		use OKLCH as the interpolation color space and employ the CSS color function
-		"color(xyz-d65 …)" for specifying color stops. The only viable alternative
-		is changing interpolation color space to OKLAB.
-	</p>
-
-	<p class="code-box">
-		background: linear-gradient(
-		<span class="direction">&lt;direction&gt;</span>
-		in
-		<span class="interpolation-space">&lt;interpolation-space&gt;</span>
-		,
-		<span class="color-stop">&lt;color-stop-1&gt;</span>
-		,
-		<span class="color-stop">&lt;color-stop-2&gt;</span>
-		);
-
-		<br />
-
-		background: linear-gradient(
-		<span class="direction">to right</span>
-		in
-		<span class="interpolation-space">oklch</span>
-		,
-		<span class="color-stop">color(xyz-d65 0.95 1 1.09)</span>
-		,
-		<span class="color-stop">color(xyz-d65 0.18 0.072 0.951)</span>
-		);
-	</p>
-
-	<h2 class="title">In detail</h2>
-
 	<ol class="list-lvl-1">
-		<li class="subtitle">Default values</li>
+		<li class="list-headline">TL;DR</li>
+		<p style="font-weight: bold; color: red">FIREFOX</p>
+		<p style="font-weight: bold; color: red">SAFARI</p>
+		<p class="list-item">
+			For consistent results across all hues, brightness levels, and
+			saturations, use OKLCH as the interpolation color space and use the CSS
+			color function "color(xyz-d65 …)" for color stops.
+		</p>
+		<p class="code-box">
+			background: linear-gradient(
+			<span class="direction">&lt;direction&gt;</span>
+			in
+			<span class="interpolation-space">&lt;interpolation-space&gt;</span>
+			,
+			<span class="color-stop">&lt;color-stop-1&gt;</span>
+			,
+			<span class="color-stop">&lt;color-stop-2&gt;</span>
+			);
+			<br />
+			background: linear-gradient(
+			<span class="direction">to right</span>
+			in
+			<span class="interpolation-space">oklch</span>
+			,
+			<span class="color-stop">color(xyz-d65 . . .)</span>
+			,
+			<span class="color-stop">color(xyz-d65 . . .)</span>
+			);
+		</p>
+
+		<li class="list-headline">Default values</li>
 		<ol class="list-lvl-2">
-			<li>
+			<li class="list-item">
 				Colors expressed in hexadecimal notation belong to the RGB color space;
 				the HEX format is merely an alternative syntax for CSS "rgb()" color
 				function, representing the same RGB values.
 			</li>
-			<li>
+			<li class="list-item">
 				If no interpolation space is specified, gradients whose color stops are
 				defined exclusively with the rgb(), hsl(), or hwb() functions default to
 				the sRGB interpolation space. For all other cases, the gradient defaults
@@ -160,74 +159,132 @@
 			</li>
 		</ol>
 
-		<li class="subtitle">Recomendations</li>
+		<li class="list-headline">Recomendations</li>
 		<ol class="list-lvl-2">
-			<li>
-				As outlined in the TL;DR, the recommended workflow is to use oklch as
-				the interpolation color space and color(xyz-d65 …) for defining color
-				stops. This combination delivers the most accurate results across a wide
-				range of hues, brightness levels, and saturations. Alternatively, you
-				can employ oklab as the interpolation space. While it yields slightly
-				different tonal characteristics, it may better suit specific palettes or
-				design goals. In either case, keep the same color-stop function
-				(color(xyz-d65 …)) for best results.
+			<li class="list-item">
+				The recommended CSS workflow for generating high-fidelity, perceptually
+				smooth color transitions involves two primary alternatives and a
+				fallback:
 			</li>
-			<li>
-				Using any polar color space except OKLCH, like HSL, HWB or LCH, as the
-				interpolation color space is strongly discouraged. These spaces
-				frequently produce inconsistent mid-tone results when combined with any
-				color function for color stops, and they often introduce unintended
-				colors into gradients. The only polar color space that works
-				consistently is OKLCH.
+			<ul class="list-lvl-3">
+				<li>
+					Optimal Method: use OKLCH as the interpolation color space and color
+					function "color(xyz-d65 …)" for color stops. This combination delivers
+					the most accurate results across a wide range of hues, brightness
+					levels, and saturations.
+				</li>
+				<li>
+					Alternative Method: Substitute the interpolation space with OKLAB,
+					while retaining the "color(xyz-d65 …)" color stop function. This
+					yields a slightly different tonal characteristic that may align better
+					with specific design requirements or color palettes.
+				</li>
+				<li>
+					Standard Gamut Fallback: Employ OKLAB as the interpolation space with
+					the legacy "rgb()" color function for stops. This approach offers good
+					results on standard gamut displays.
+				</li>
+			</ul>
+			<li class="list-item">
+				Using any polar color space like HSL, HWB or LCH as the interpolation
+				color space is generally discouraged. These spaces frequently produce
+				inconsistent mid-tone results when combined with any color function for
+				color stops, and they often introduce unintended colors into gradients.
+				The only polar color space that works consistently is OKLCH.
 			</li>
-			<li>
-				The use of hsl() and hwb() is generally discouraged in modern CSS. These
-				functions are restricted to a small subset of the sRGB color range
-				(roughly 3.6 million colors), leaving over 75% of the full rgb() gamut
-				(16.7 million colors) inaccessible. Furthermore, the mandatory internal
-				conversion of these polar values to RGB for rendering can introduce
-				rounding errors and slight color inaccuracies. For an intuitive polar
-				system, oklch() is the recommended modern solution. It uses the
-				perceptually uniform OKLab space, supports the full range of standard
-				and wide gamuts, and provides highly reliable results.
-			</li>
-			<li>
-				When using the "color()" function and its "from" keyword for relative
-				color adjustments, using standard gamut color spaces (such as srgb, hsl,
-				or hwb) as the source for conversion to a wide gamut space (like oklab,
-				display-p3 or rec2020) offers no chromatic advantage over defining the
-				color directly in standard color gamut color function. This is because
-				the initial sRGB-based color intrinsically limits the available color
-				range. Conversely, converting a wide gamut color to a standard gamut
-				color space will frequently result in gamut clamping and rounding
-				errors. The system must compress the out-of-gamut colors to fit the
-				smaller sRGB boundary, leading to an unavoidable loss of precision and
-				saturation.
+			<li class="list-item">
+				The use of HSL, HWB or LCH is generally discouraged in modern CSS. For
+				an intuitive polar system, OKLCH is the recommended modern solution. It
+				uses the perceptually uniform color space, supports the full range of
+				standard and wide gamuts, and provides more reliable results.
 			</li>
 		</ol>
 
-		<li class="subtitle">Bugs</li>
+		<li class="list-headline">Additional notes</li>
 		<ol class="list-lvl-2">
-			<li>
-				As outlined in the TL;DR, the recommended approach is to use OKLCH as
-				the interpolation color space. While this generally yields superior
-				results, blue mid-tones can acquire a subtle teal hue. The only
-				practical alternative is OKLAB, which tends to introduce a faint purple
-				tint in blue mid-tones. Choose the option that best aligns with your
-				visual requirements.
-				<div class="blue-bug">
-					<div class="oklch">oklch</div>
-					<div class="oklab">oklab</div>
+			<li class="list-item">
+				If one of the color stops is white, interpolation produces different
+				gradients through polar and rectangular color spaces and across browsers
+				in general. OKLAB is the preferred interpolation color space and while
+				it generally yields superior results, in blue-white gradients for
+				example, blue mid-tones can acquire a subtle teal hue. The alternative
+				is OKLAB, which tends to introduce a faint purple tint in blue
+				mid-tones. Similar hue shifts can be observed on other white-to-color
+				gradients. Choose the option that best aligns with your visual
+				requirements.
+			</li>
+			<div class="blue-bug">
+				<div class="oklab">oklab</div>
+				<div class="oklch">oklch</div>
+			</div>
+			<li class="list-item">
+				Gradients spanning large hue differences (like a transition from light
+				pink to blue) vary significantly based on whether rectangular (e.g.,
+				Oklab) or polar (e.g., Oklch) color interpolation is used.
+				<ul class="list-lvl-3">
+					<li>
+						Rectangular Interpolation (Oklab) Rectangular color spaces
+						interpolate along a straight line across the color wheel. This path
+						often passes near the achromatic center, causing a significant loss
+						of saturation (a "graying out" or muddying) in the mid-tones of the
+						gradient, especially with complementary colors. In the pink-to-blue
+						example, the blue component tends to dominate the final gradient
+						appearance.
+					</li>
+					<li>
+						Polar Interpolation (Oklch) Polar color spaces interpolate in a
+						circular manner around the hue wheel. This method effectively
+						maintains saturation, preventing the desaturation observed in
+						rectangular methods. However, this approach introduces additional
+						hues (like pink, magenta, and purple in the example) into the
+						mid-tones, which can result in a more complex color trajectory.
+					</li>
+					<li>
+						Both interpolation methods are considered viable, and the choice
+						between them ultimately depends on the specific design requirements
+						of the gradient.
+					</li>
+				</ul>
+			</li>
+			<div class="lightpink-bug">
+				<div class="oklab">oklab</div>
+				<div class="oklch">oklch</div>
+				<div class="color-wheel">
+					<p class="oklch-label">oklch</p>
+					<p class="oklab-label">oklab</p>
+					<svg>
+						<circle r="2" cx="50%" cy="50%" stroke="black" stroke-width="3" />
+						<path
+							d="m150,100 l-132,125"
+							style="fill: none; stroke: black; stroke-width: 3"
+						/>
+						<path
+							d="m150,100 q-90,-50 -132,125"
+							style="fill: none; stroke: black; stroke-width: 3"
+						/>
+					</svg>
 				</div>
+				<p class="note">
+					This color wheel is just a simplification of the full color gamut, but
+					it serves the purpose of displaying the difference in polar and
+					rectangular interpolation.
+				</p>
+			</div>
+			<li class="list-item">
+				If there is no difference in hue between color stops, both polar and
+				rectangular color spaces for interpolation follow the same straight path
+				between the stops and produce the same results.
 			</li>
-			<li>LIGHTPINK-TO-BLUE BUG</li>
-			<li>
-				Rectangular color spaces like OKLAB interpolate colors along a straight
-				line, whereas polar color spaces like OKLCH interpolate in a circular
-				manner around the hue wheel. Both approaches are viable, depending of
-				the design requirements.
+		</ol>
+
+		<li class="list-headline">Environment</li>
+		<ol class="list-lvl-2">
+			<li class="list-item">
+				All observations tested on: Chrome browser version 141, operating system
+				Windows 11 and a standard color gamut display.
 			</li>
-			<li>RELATIVE-BUG</li>
+			<p style="font-weight: bold; color: red">FIREFOX</p>
+			<p style="font-weight: bold; color: red">SAFARI</p>
 		</ol>
 	</ol>
 </div>
