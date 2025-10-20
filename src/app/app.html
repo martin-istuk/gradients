@@ -113,8 +113,9 @@
 
 	<p class="text">
 		For consistent results across all hues, brightness levels, and saturations,
-		use oklch as the interpolation color space and employ the CSS function "color(xyz-d65
-		…)" for specifying color stops.
+		use OKLCH as the interpolation color space and employ the CSS color function
+		"color(xyz-d65 …)" for specifying color stops. The only viable alternative
+		is changing interpolation color space to OKLAB.
 	</p>
 
 	<p class="code-box">
@@ -172,10 +173,12 @@
 				(color(xyz-d65 …)) for best results.
 			</li>
 			<li>
-				Using HSL or HWB as the interpolation color space is strongly
-				discouraged. These spaces frequently produce inconsistent mid-tone
-				results when combined with any color function for color stops, and they
-				often introduce unintended colors into gradients.
+				Using any polar color space except OKLCH, like HSL, HWB or LCH, as the
+				interpolation color space is strongly discouraged. These spaces
+				frequently produce inconsistent mid-tone results when combined with any
+				color function for color stops, and they often introduce unintended
+				colors into gradients. The only polar color space that works
+				consistently is OKLCH.
 			</li>
 			<li>
 				The use of hsl() and hwb() is generally discouraged in modern CSS. These
@@ -210,18 +213,21 @@
 				the interpolation color space. While this generally yields superior
 				results, blue mid-tones can acquire a subtle teal hue. The only
 				practical alternative is OKLAB, which tends to introduce a faint purple
-				tint in blue mid-tones. Additionally, rectangular color spaces like
-				OKLAB interpolate colors along a straight line, whereas polar color
-				spaces like OKLCH interpolate in a circular manner around the hue wheel.
-				Both approaches are viable; choose the option that best aligns with your
+				tint in blue mid-tones. Choose the option that best aligns with your
 				visual requirements.
 				<div class="blue-bug">
 					<div class="oklch">oklch</div>
 					<div class="oklab">oklab</div>
 				</div>
 			</li>
-			<li>ADD lightpink-to-blue BUG EXAMPLE IN BUGS SECTION</li>
-			<li>ADD RELATIVE-BUG EXAMPLE IN BUGS SECTION</li>
+			<li>LIGHTPINK-TO-BLUE BUG</li>
+			<li>
+				Rectangular color spaces like OKLAB interpolate colors along a straight
+				line, whereas polar color spaces like OKLCH interpolate in a circular
+				manner around the hue wheel. Both approaches are viable, depending of
+				the design requirements.
+			</li>
+			<li>RELATIVE-BUG</li>
 		</ol>
 	</ol>
 </div>
