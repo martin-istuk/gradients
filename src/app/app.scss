@@ -141,7 +141,11 @@
 	background: #333333;
 	padding: 16px;
 	color: white;
-	font-family: monospace;
+
+	&,
+	& > * {
+		font: 400 14px / 1.5 monospace;
+	}
 }
 
 .direction {
@@ -162,50 +166,40 @@
 .blue-bug {
 	margin: 16px 64px;
 
+	$start: color(xyz-d65 0.95 1 1.09);
+	$end: color(xyz-d65 0.18 0.072 0.951);
+
 	.oklab,
 	.oklch {
 		height: 50px;
 		padding: 8px;
 		font-size: 14px;
-		background: linear-gradient(
-			to right in oklab,
-			color(xyz-d65 0.95 1 1.09),
-			color(xyz-d65 0.18 0.072 0.951)
-		);
+		background: linear-gradient(to right in oklab, $start, $end);
 	}
 
 	.oklch {
 		border-top: 1px solid black;
-		background: linear-gradient(
-			to right in oklch,
-			color(xyz-d65 0.95 1 1.09),
-			color(xyz-d65 0.18 0.072 0.951)
-		);
+		background: linear-gradient(to right in oklch, $start, $end);
 	}
 }
 
 .lightpink-bug {
 	margin: 16px 64px;
 
+	$start: color(xyz-d65 0.584 0.463 0.36);
+	$end: color(xyz-d65 0.18 0.072 0.951);
+
 	.oklab,
 	.oklch {
 		height: 50px;
 		padding: 8px;
 		font-size: 14px;
-		background: linear-gradient(
-			to right in oklab,
-			color(xyz-d65 0.584 0.463 0.36),
-			color(xyz-d65 0.18 0.072 0.951)
-		);
+		background: linear-gradient(to right in oklab, $start, $end);
 	}
 
 	.oklch {
 		border-top: 1px solid black;
-		background: linear-gradient(
-			to right in oklch,
-			color(xyz-d65 0.584 0.463 0.36),
-			color(xyz-d65 0.18 0.072 0.951)
-		);
+		background: linear-gradient(to right in oklch, $start, $end);
 	}
 
 	.color-wheel {
@@ -218,7 +212,7 @@
 			radial-gradient(
 				in oklch,
 				oklch(100% 0.00011 271.152),
-				oklch(100% 0.00011 271.152 / 0) 50%
+				oklch(100% 0.00011 271.152 / 0) 25%
 			),
 			conic-gradient(
 				in oklch,
@@ -234,13 +228,13 @@
 		.oklch-label {
 			position: absolute;
 			top: 60px;
-			left: 60px;
+			left: 40px;
 		}
 
 		.oklab-label {
 			position: absolute;
-			top: 160px;
-			left: 90px;
+			top: 220px;
+			left: 50px;
 		}
 
 		svg {
