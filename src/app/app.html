@@ -200,16 +200,6 @@
 				they often introduce unintended colors into gradients. The only polar
 				color space that works consistently is OKLCH.
 			</li>
-			<li class="list-item">
-				If one of the color stops is a pure white color, use OKLAB for
-				interpolation, as in those conditions OKLCH in Chrome, Opera, Edge and
-				Safari adds extra colors to mid-tones.
-			</li>
-			<li class="list-item">
-				If a gradient has neighboring color stops that differ by 60 or more
-				degrees in hue, OKLCH will in most situations preform better than OKLAB,
-				as OKLAB adds grayish mid-tones.
-			</li>
 		</ol>
 
 		<li class="list-headline">Color functions</li>
@@ -226,6 +216,16 @@
 
 		<li class="list-headline">Additional notes</li>
 		<ol class="list-lvl-2">
+			<li class="list-item">
+				If one of the color stops is a pure white color, use OKLAB for
+				interpolation, as in those conditions OKLCH in Chrome, Opera, Edge and
+				Safari adds extra colors to mid-tones.
+			</li>
+			<li class="list-item">
+				If a gradient has neighboring color stops that differ by 60 or more
+				degrees in hue, OKLCH will in most situations preform better than OKLAB,
+				as OKLAB adds grayish mid-tones.
+			</li>
 			<li class="list-item">
 				Firefox can not properly render conic gradients. Colors are fine, but
 				the gradient has too sharp hue steps.
