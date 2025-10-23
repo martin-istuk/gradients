@@ -61,6 +61,7 @@
 		@for (space of constants.allColorSpaces; track $index) {
 			<button
 				class="color-stop-btn function"
+				[class.polar]="['hsl', 'hwb', 'lch', 'oklch'].includes(space)"
 				[attr.data-color-stop-space]="'data-color-stop-space-' + space"
 				(click)="removeColorStop(space)"
 			>
@@ -74,6 +75,9 @@
 		) {
 			<button
 				class="interpolation-space-btn interpolation"
+				[class.polar]="
+					['hsl', 'hwb', 'lch', 'oklch'].includes(interpolationSpace)
+				"
 				[attr.data-interpolation-space]="
 					'data-interpolation-space-' + interpolationSpace
 				"
@@ -117,6 +121,30 @@
 <!-- MARK: bottom -->
 
 <div class="bottom">
+	<p class="code-box">
+		<span>background: linear-gradient(</span>
+		<span class="direction">&lt;direction&gt;</span>
+		<span>&nbsp;in&nbsp;</span>
+		<span class="interpolation-space">&lt;interpolation-space&gt;</span>
+		<span>,&nbsp;</span>
+		<span class="color-stop">&lt;color-stop-fn-1&gt;</span>
+		<span>,&nbsp;</span>
+		<span class="color-stop">&lt;color-stop-fn-2&gt;</span>
+		<span>);</span>
+
+		<br />
+
+		<span>background: linear-gradient(</span>
+		<span class="direction">to right</span>
+		<span>&nbsp;in&nbsp;</span>
+		<span class="interpolation-space">oklab</span>
+		<span>,&nbsp;</span>
+		<span class="color-stop">hsl()</span>
+		<span>,&nbsp;</span>
+		<span class="color-stop">hsl()</span>
+		<span>);</span>
+	</p>
+
 	<ol class="list-lvl-1">
 		<li class="list-headline">TL;DR</li>
 		<ol class="list-lvl-2">
@@ -142,31 +170,16 @@
 			</li>
 		</ol>
 
-		<p class="code-box">
-			<span>background: linear-gradient(</span>
-			<span class="direction">&lt;direction&gt;</span>
-			<span>&nbsp;in&nbsp;</span>
-			<span class="interpolation-space">&lt;interpolation-space&gt;</span>
-			<span>,&nbsp;</span>
-			<span class="color-stop">&lt;color-stop-fn-1&gt;</span>
-			<span>,&nbsp;</span>
-			<span class="color-stop">&lt;color-stop-fn-2&gt;</span>
-			<span>);</span>
-
-			<br />
-
-			<span>background: linear-gradient(</span>
-			<span class="direction">to right</span>
-			<span>&nbsp;in&nbsp;</span>
-			<span class="interpolation-space">oklab</span>
-			<span>,&nbsp;</span>
-			<span class="color-stop">hsl()</span>
-			<span>,&nbsp;</span>
-			<span class="color-stop">hsl()</span>
-			<span>);</span>
-		</p>
-
 		<li class="list-headline">Glossary</li>
+
+		<div class="signs">
+			<code class="engine">Rendering Engine = green</code>
+			<code class="interpolation">INTERPOLATION SPACE = uppercase purple</code>
+			<code class="function">color function = lowercase pink</code>
+			<code class="theme">rectangular color space = rectangular box</code>
+			<code class="theme polar">polar color space = rounded box</code>
+		</div>
+
 		<ol class="list-lvl-2">
 			<li class="list-item">
 				Color space - a defined range of colors and a specific method for
@@ -329,13 +342,19 @@
 			</li>
 
 			<li class="list-item">
-				All others functions either don't work as they should or are incosistent
-				across browsers, or both.
+				All others functions either don't work as they're supposed to or are
+				incosistent across browsers, or both.
 			</li>
 		</ol>
 
 		<li class="list-headline">Additional observations</li>
 		<ol class="list-lvl-2">
+			<li class="list-item">
+				<code class="engine">Gecko</code>
+				browsers can't properly render conic gradients. Colors are fine, but the
+				gradient has too sharp hue steps.
+			</li>
+
 			<li class="list-item">
 				<code class="engine">Blink</code>
 				browsers can't properly render gradients which use the same
@@ -346,12 +365,6 @@
 			</li>
 
 			<li class="list-item">
-				<code class="engine">Gecko</code>
-				browsers can't properly render conic gradients. Colors are fine, but the
-				gradient has too sharp hue steps.
-			</li>
-
-			<li class="list-item">
 				<code class="engine">Blink</code>
 				and
 				<code class="engine">WebKit</code>
@@ -359,8 +372,11 @@
 				<code class="interpolation polar">OKLCH</code>
 				interpolation add unwanted extra colors to mid-tones of the gradient if
 				one of the color stops is a pure
-				<span style="background: white">white</span>
-				color.
+				<span
+					style="background: white; border: 1px solid black; padding: 0 2px"
+					[innerText]="'white'"
+				></span>
+				<span>&nbsp;color.</span>
 				<div class="blue-bug">
 					<div class="oklab">oklab</div>
 					<div class="oklch">oklch</div>
@@ -368,12 +384,14 @@
 			</li>
 
 			<li class="list-item">
-				Gradients spanning large hue differences (like a transition from light
-				pink to blue) vary significantly based on whether rectangular (e.g.,
+				<span>
+					Gradients spanning large hue differences (like a transition from light
+					pink to blue) vary significantly based on whether rectangular (e.g.,
+				</span>
 				<code class="interpolation">OKLAB</code>
-				) or polar (e.g.,
+				<span>) or polar (e.g.,</span>
 				<code class="interpolation polar">OKLCH</code>
-				) color interpolation is used.
+				<span>) color interpolation is used.</span>
 				<ul class="list-lvl-3">
 					<li>
 						<span>Rectangular Interpolation (</span>
@@ -394,11 +412,11 @@
 						<span>) -</span>
 						<span>
 							Polar color spaces interpolate in a circular manner around the hue
-							wheel. This method effectively maintains saturation, preventing
-							the desaturation observed in rectangular methods. However, this
-							approach introduces additional hues (like pink, magenta, and
-							purple in the example) into the mid-tones, which can result in a
-							more complex color trajectory.
+							wheel. This method is better at preventing desaturation observed
+							in rectangular methods. However, this approach introduces
+							additional hues (like pink, magenta, and purple in the example)
+							into the mid-tones, which can result in a more complex color
+							trajectory.
 						</span>
 					</li>
 					<li>
@@ -434,8 +452,9 @@
 					</svg>
 				</div>
 				<p class="note">
-					This color wheel is just a simplification, but it serves the purpose
-					of displaying the difference in polar and rectangular interpolation.
+					This color wheel provides a simplified illustration, yet effectively
+					demonstrates the distinction between polar and rectangular
+					interpolation.
 				</p>
 			</div>
 		</ol>

@@ -69,8 +69,8 @@ body {
 }
 
 :root {
-	--theme: hsl(180deg 100% 20%);
+	--theme: hsl(0, 0%, 20%);
 	--interpolation: hsl(260deg 100% 25%);
-	--function: hsl(330deg 100% 35%);
-	--engine: hsl(45deg 100% 20%);
+	--function: hsl(330deg 100% 20%);
+	--engine: hsl(120, 100%, 12%);
 }

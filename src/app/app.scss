@@ -69,14 +69,14 @@
 .color-stop-btn,
 .interpolation-space-btn {
 	margin: 1px;
-	border-radius: 9999px;
 	width: calc(100% - 4px);
 	height: calc(100% - 4px);
 	min-height: 40px;
 	padding: 4px;
 	font-size: 14px;
 	text-align: center;
-	cursor: crosshair;
+	word-break: break-all;
+	cursor: pointer;
 
 	&:hover {
 		background: red;
@@ -85,7 +85,6 @@
 }
 
 .interpolation-space-btn {
-	border-radius: 0;
 	white-space: nowrap;
 }
 
@@ -96,9 +95,18 @@
 
 .note {
 	margin: auto;
-	max-width: 840px;
-	font-size: 12px;
+	width: fit-content;
+	max-width: 80vw;
 	color: rgb(59, 59, 59);
+	font-size: 12px;
+	text-align: center;
+}
+
+.signs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	justify-content: center;
 }
 
 // MARK: bottom
@@ -118,22 +126,25 @@
 }
 
 .list-lvl-3 {
+	margin: 8px 0 16px;
 	padding: 0 0 0 64px;
 	list-style: disc outside;
 }
 
 .list-headline {
+	margin: 16px 0 8px;
 	font-weight: 700;
 	font-size: 24px;
 }
 
 .list-item {
+	margin: 8px 0;
 	font-weight: 400;
 	font-size: 16px;
 }
 
 .code-box {
-	margin: 16px 0;
+	margin: 32px 0;
 	border-radius: 8px;
 	background: #333333;
 	padding: 16px;
@@ -152,22 +163,31 @@ code {
 }
 
 .theme {
-	background: color(from var(--theme) srgb r g b / 20%);
+	background: color(from var(--theme) srgb r g b / 30%);
 	color: var(--theme);
 }
 
 .engine {
-	background: color(from var(--engine) srgb r g b / 20%);
+	clip-path: polygon(
+		0% 12px,
+		12px 0%,
+		calc(100% - 12px) 0%,
+		100% 12px,
+		calc(100% - 12px) 100%,
+		12px 100%
+	);
+	padding: 2px 8px;
+	background: color(from var(--engine) srgb r g b / 30%);
 	color: var(--engine);
 }
 
 .interpolation {
-	background: color(from var(--interpolation) srgb r g b / 20%);
+	background: color(from var(--interpolation) srgb r g b / 30%);
 	color: var(--interpolation);
 }
 
 .function {
-	background: color(from var(--function) srgb r g b / 20%);
+	background: color(from var(--function) srgb r g b / 30%);
 	color: var(--function);
 }
 
