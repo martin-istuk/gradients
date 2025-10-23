@@ -21,8 +21,6 @@
 	gap: 8px;
 	border-radius: 9999px;
 	padding: 8px 16px;
-	background: var(--theme);
-	color: white;
 	cursor: pointer;
 
 	&:hover,
@@ -46,7 +44,6 @@
 		border-radius: 9999px;
 		height: 40px;
 		padding: 6px;
-		background: var(--theme);
 	}
 }
 
@@ -76,10 +73,8 @@
 	width: calc(100% - 4px);
 	height: calc(100% - 4px);
 	min-height: 40px;
-	background: var(--function);
 	padding: 4px;
-	color: white;
-	font-size: 10px;
+	font-size: 14px;
 	text-align: center;
 	cursor: crosshair;
 
@@ -89,7 +84,6 @@
 }
 
 .interpolation-space-btn {
-	background: var(--interpolation);
 	white-space: nowrap;
 }
 
@@ -153,26 +147,30 @@ code {
 	padding: 2px 4px;
 	color: white;
 	font-family: monospace;
+}
 
-	&.theme {
-		background: var(--theme);
-	}
+.theme {
+	background: color(from var(--theme) srgb r g b / 20%);
+	color: var(--theme);
+}
 
-	&.engine {
-		background: var(--engine);
-	}
+.engine {
+	background: color(from var(--engine) srgb r g b / 20%);
+	color: var(--engine);
+}
 
-	&.interpolation {
-		background: var(--interpolation);
-	}
+.interpolation {
+	background: color(from var(--interpolation) srgb r g b / 20%);
+	color: var(--interpolation);
+}
 
-	&.function {
-		background: var(--function);
-	}
+.function {
+	background: color(from var(--function) srgb r g b / 20%);
+	color: var(--function);
+}
 
-	&.polar {
-		border-radius: 9999px;
-	}
+.polar {
+	border-radius: 9999px;
 }
 
 .direction {

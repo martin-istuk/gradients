@@ -2,17 +2,17 @@
 
 <div class="top">
 	<div class="controls">
-		<button class="control-btn" (click)="reset()">
+		<button class="control-btn theme" (click)="reset()">
 			Reset
 			<span class="material-symbols-outlined">format_color_reset</span>
 		</button>
 
-		<button class="control-btn" (click)="rotate()">
+		<button class="control-btn theme" (click)="rotate()">
 			Rotate
 			<span class="material-symbols-outlined">rotate_90_degrees_cw</span>
 		</button>
 
-		<button class="control-btn" (click)="borders()">
+		<button class="control-btn theme" (click)="borders()">
 			Borders
 			<span class="material-symbols-outlined">pageless</span>
 		</button>
@@ -24,6 +24,7 @@
 				Start color:
 				<input
 					type="color"
+					class="theme"
 					formControlName="startColor"
 					id="startColor"
 					value="#ffffff"
@@ -34,6 +35,7 @@
 				End color:
 				<input
 					type="color"
+					class="theme"
 					formControlName="endColor"
 					id="endColor"
 					value="#0000ff"
@@ -58,7 +60,7 @@
 
 		@for (space of constants.allColorSpaces; track $index) {
 			<button
-				class="color-stop-btn"
+				class="color-stop-btn function"
 				[attr.data-color-stop-space]="'data-color-stop-space-' + space"
 				(click)="removeColorStop(space)"
 			>
@@ -71,7 +73,7 @@
 			track $index
 		) {
 			<button
-				class="interpolation-space-btn"
+				class="interpolation-space-btn interpolation"
 				[attr.data-interpolation-space]="
 					'data-interpolation-space-' + interpolationSpace
 				"
@@ -129,6 +131,7 @@
 				<code class="function polar">hwb()</code>
 				<span>.</span>
 			</li>
+
 			<li class="list-item">
 				Test both
 				<code class="interpolation">OKLAB</code>
@@ -175,6 +178,7 @@
 				<code class="theme polar">rounded</code>
 				background.
 			</li>
+
 			<li class="list-item">
 				<span>
 					Interpolation space - Color space used for generating mid-tones in
@@ -184,6 +188,7 @@
 				<code class="interpolation polar">HSL</code>
 				<span>.</span>
 			</li>
+
 			<li class="list-item">
 				<span>
 					Color function - Function that generates a color of gradient stop.
@@ -201,6 +206,7 @@
 					function, representing the same rgb() values.
 				</span>
 			</li>
+
 			<li class="list-item">
 				<code class="engine">Blink</code>
 				engine is a browser rendering engine of Chrome, Opera, Edge, Brave,
@@ -230,6 +236,7 @@
 				<code class="interpolation">OKLAB</code>
 				interpolation space.
 			</li>
+
 			<li class="list-item">
 				The interpolation space has a significantly greater impact on the
 				resulting color gradient quality than the color stop function.
@@ -247,6 +254,7 @@
 				Therefore, selecting the appropriate interpolation color space is the
 				primary factor in achieving the desired color gradient fidelity.
 			</li>
+
 			<li class="list-item">
 				<code class="interpolation">OKLAB</code>
 				and
@@ -259,6 +267,12 @@
 				limitations; therefore, direct comparison between the two is essential
 				to determine the optimal visual outcome.
 			</li>
+
+			<li class="list-item">
+				If there is no difference in hue between color stops, both polar and
+				rectangular interpolation should yield identical results.
+			</li>
+
 			<li class="list-item">
 				Using any polar color space like
 				<code class="interpolation polar">HSL</code>
@@ -297,6 +311,7 @@
 						<code class="function polar">oklch()</code>
 						<span>.</span>
 					</li>
+
 					<li>
 						In
 						<code class="interpolation polar">OKLCH</code>
@@ -312,6 +327,7 @@
 					</li>
 				</ul>
 			</li>
+
 			<li class="list-item">
 				All others functions either don't work as they should or are incosistent
 				across browsers, or both.
@@ -321,69 +337,69 @@
 		<li class="list-headline">Additional observations</li>
 		<ol class="list-lvl-2">
 			<li class="list-item">
-				If a gradient has neighboring color stops that differ in hue by 60 or
-				more degrees, use
+				<code class="engine">Blink</code>
+				browsers can't properly render gradients which use the same
 				<code class="interpolation polar">OKLCH</code>
-				for interpolation, as in those conditions
-				<code class="interpolation">OKLAB</code>
-				adds grayish mid-tones.
+				for interpolation and
+				<code class="function polar">oklch()</code>
+				as color function.
 			</li>
+
+			<li class="list-item">
+				<code class="engine">Gecko</code>
+				browsers can't properly render conic gradients. Colors are fine, but the
+				gradient has too sharp hue steps.
+			</li>
+
 			<li class="list-item">
 				<code class="engine">Blink</code>
+				and
+				<code class="engine">WebKit</code>
 				browsers with
 				<code class="interpolation polar">OKLCH</code>
 				interpolation add unwanted extra colors to mid-tones of the gradient if
 				one of the color stops is a pure
 				<span style="background: white">white</span>
 				color.
+				<div class="blue-bug">
+					<div class="oklab">oklab</div>
+					<div class="oklch">oklch</div>
+				</div>
 			</li>
-			<li class="list-item">
-				<code class="engine">Gecko</code>
-				browsers can't properly render conic gradients. Colors are fine, but the
-				gradient has too sharp hue steps.
-			</li>
-			<li class="list-item">
-				<code class="engine">Blink</code>
-				browsers can't properly render gradients which use the same OKLCH for
-				both interpolation space and color function.
-			</li>
-			<li class="list-item">
-				If one of the color stops is a pure white color, Chrome, Opera, Edge and
-				Safari do not interpolate properly in polar color spaces. Interpolation
-				produces different gradients through polar and rectangular color spaces
-				and across browsers in general. OKLCH is the preferred interpolation
-				color space and while it generally yields superior results, in
-				blue-white gradients for example, blue mid-tones can acquire a subtle
-				teal hue. The alternative is OKLAB, which tends to introduce a faint
-				purple tint in blue mid-tones. Similar hue shifts can be observed on
-				other white-to-saturated gradients. Choose the option that best aligns
-				with your visual requirements.
-			</li>
-			<div class="blue-bug">
-				<div class="oklab">oklab</div>
-				<div class="oklch">oklch</div>
-			</div>
+
 			<li class="list-item">
 				Gradients spanning large hue differences (like a transition from light
 				pink to blue) vary significantly based on whether rectangular (e.g.,
-				Oklab) or polar (e.g., Oklch) color interpolation is used.
+				<code class="interpolation">OKLAB</code>
+				) or polar (e.g.,
+				<code class="interpolation polar">OKLCH</code>
+				) color interpolation is used.
 				<ul class="list-lvl-3">
 					<li>
-						Rectangular Interpolation (Oklab) Rectangular color spaces
-						interpolate along a straight line across the color wheel. This path
-						often passes near the achromatic center, causing a significant loss
-						of saturation (a "graying out" or muddying) in the mid-tones of the
-						gradient, especially with complementary colors. In the pink-to-blue
-						example, the blue component tends to dominate the final gradient
-						appearance.
+						<span>Rectangular Interpolation (</span>
+						<code class="interpolation">OKLAB</code>
+						<span>) -</span>
+						<span>
+							Rectangular color spaces interpolate along a straight line across
+							the color wheel. This path often passes near the achromatic
+							center, causing a significant loss of saturation (a "graying out"
+							or muddying) in the mid-tones of the gradient, especially with
+							complementary colors. In the pink-to-blue example, the blue
+							component tends to dominate the final gradient appearance.
+						</span>
 					</li>
 					<li>
-						Polar Interpolation (Oklch) Polar color spaces interpolate in a
-						circular manner around the hue wheel. This method effectively
-						maintains saturation, preventing the desaturation observed in
-						rectangular methods. However, this approach introduces additional
-						hues (like pink, magenta, and purple in the example) into the
-						mid-tones, which can result in a more complex color trajectory.
+						<span>Polar Interpolation (</span>
+						<code class="interpolation polar">OKLCH</code>
+						<span>) -</span>
+						<span>
+							Polar color spaces interpolate in a circular manner around the hue
+							wheel. This method effectively maintains saturation, preventing
+							the desaturation observed in rectangular methods. However, this
+							approach introduces additional hues (like pink, magenta, and
+							purple in the example) into the mid-tones, which can result in a
+							more complex color trajectory.
+						</span>
 					</li>
 					<li>
 						Both interpolation methods are considered viable, and the choice
@@ -422,18 +438,12 @@
 					of displaying the difference in polar and rectangular interpolation.
 				</p>
 			</div>
-			<li class="list-item">
-				If there is no difference in hue between color stops, both polar and
-				rectangular color spaces for interpolation follow the same straight path
-				between the stops and produce the same results.
-			</li>
 		</ol>
 
 		<li class="list-headline">Environment</li>
 		<ol class="list-lvl-2">
 			<li class="list-item">
-				All observations tested on: Chrome browser version 141, operating system
-				Windows 11 and a standard color gamut display.
+				All observations tested on a standard color gamut display.
 			</li>
 			<p style="font-weight: bold; color: red">FIREFOX</p>
 			<p style="font-weight: bold; color: red">SAFARI</p>
