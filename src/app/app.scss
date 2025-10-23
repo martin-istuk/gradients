@@ -146,14 +146,18 @@
 .code-box {
 	margin: 32px 0;
 	border-radius: 8px;
-	background: #333333;
+	background: #c3c3c3;
 	padding: 16px;
-	color: white;
 
 	&,
 	& > * {
 		font: 400 14px / 1.5 monospace;
 	}
+}
+
+.direction {
+	color: hsl(0, 100%, 40%);
+	font: inherit;
 }
 
 code {
@@ -193,21 +197,6 @@ code {
 
 .polar {
 	border-radius: 9999px;
-}
-
-.direction {
-	color: hsl(350, 100%, 79%);
-	font: inherit;
-}
-
-.interpolation-space {
-	color: hsl(120, 85%, 64%);
-	font: inherit;
-}
-
-.color-stop {
-	color: hsl(60, 100%, 54%);
-	font: inherit;
 }
 
 .blue-bug {

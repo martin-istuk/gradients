@@ -125,11 +125,11 @@
 		<span>background: linear-gradient(</span>
 		<span class="direction">&lt;direction&gt;</span>
 		<span>&nbsp;in&nbsp;</span>
-		<span class="interpolation-space">&lt;interpolation-space&gt;</span>
+		<span class="interpolation">&lt;interpolation-space&gt;</span>
 		<span>,&nbsp;</span>
-		<span class="color-stop">&lt;color-stop-fn-1&gt;</span>
+		<span class="function">&lt;color-stop-fn-1&gt;</span>
 		<span>,&nbsp;</span>
-		<span class="color-stop">&lt;color-stop-fn-2&gt;</span>
+		<span class="function">&lt;color-stop-fn-2&gt;</span>
 		<span>);</span>
 
 		<br />
@@ -137,11 +137,11 @@
 		<span>background: linear-gradient(</span>
 		<span class="direction">to right</span>
 		<span>&nbsp;in&nbsp;</span>
-		<span class="interpolation-space">oklab</span>
+		<span class="interpolation">oklab</span>
 		<span>,&nbsp;</span>
-		<span class="color-stop">hsl()</span>
+		<span class="function polar">hsl()</span>
 		<span>,&nbsp;</span>
-		<span class="color-stop">hsl()</span>
+		<span class="function polar">hsl()</span>
 		<span>);</span>
 	</p>
 
@@ -174,8 +174,8 @@
 
 		<div class="signs">
 			<code class="engine">Rendering Engine = green</code>
-			<code class="interpolation">INTERPOLATION SPACE = uppercase purple</code>
 			<code class="function">color function = lowercase pink</code>
+			<code class="interpolation">INTERPOLATION SPACE = uppercase purple</code>
 			<code class="theme">rectangular color space = rectangular box</code>
 			<code class="theme polar">polar color space = rounded box</code>
 		</div>
@@ -184,35 +184,21 @@
 			<li class="list-item">
 				Color space - a defined range of colors and a specific method for
 				organizing and representing them numerically. A color space can be
-				rectangular or polar (cylindrical). On this page rectangular spaces and
-				functions are listed with
-				<code class="theme">rectangular</code>
-				background, while polar ones have
-				<code class="theme polar">rounded</code>
-				background.
+				rectangular or polar (cylindrical).
 			</li>
 
 			<li class="list-item">
-				<span>
-					Interpolation space - Color space used for generating mid-tones in
-					gradient. On this page listed in uppercase without parentheses, on
-					purple background, like
-				</span>
-				<code class="interpolation polar">HSL</code>
-				<span>.</span>
+				Interpolation space - Color space used for generating mid-tones in
+				gradient.
 			</li>
 
 			<li class="list-item">
 				<span>
 					Color function - Function that generates a color of gradient stop.
 					Functions internally rely the same color spaces as the ones used for
-					interpolation. On this page listed in lowercase with parentheses, on
-					pink background, like
+					interpolation.
 				</span>
-				<code class="function polar">hsl()</code>
-				<span>, or in the case of hexadecimal colors; &nbsp;</span>
-				<code class="function">#hex</code>
-				<span>.</span>
+
 				<span>
 					Colors expressed in hexadecimal notation belong to the sRGB color
 					space; the #hex format is just an alternative syntax for rgb() color
