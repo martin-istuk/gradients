@@ -79,7 +79,7 @@
 				"
 				(click)="removeColorInterpolationSpace(interpolationSpace)"
 			>
-				{{ interpolationSpace }}
+				{{ interpolationSpace | uppercase }}
 			</button>
 
 			@for (space of constants.allColorSpaces; track $index) {
