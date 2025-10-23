@@ -17,7 +17,7 @@
 			<span class="material-symbols-outlined">pageless</span>
 		</button>
 
-		<p class="label-top">Color functions for gradient color stops</p>
+		<p class="label-top">Color functions</p>
 
 		<form [formGroup]="form" class="form">
 			<label for="startColor">
@@ -42,7 +42,7 @@
 		</form>
 	</div>
 
-	<p class="label-left">Interpolation color spaces for gradient mid-tones</p>
+	<p class="label-left">Interpolation spaces</p>
 
 	<div
 		#table
@@ -119,12 +119,23 @@
 		<li class="list-headline">TL;DR</li>
 		<ol class="list-lvl-2">
 			<li class="list-item">
-				Define your color stops using a standard color function (RGB, HEX, HSL
-				or HWB).
+				Define your color stops using a standard color function;
+				<code class="function">rgb()</code>
+				<span>,&nbsp;</span>
+				<code class="function">#hex</code>
+				<span>,&nbsp;</span>
+				<code class="function polar">hsl()</code>
+				<span>&nbsp;or&nbsp;</span>
+				<code class="function polar">hwb()</code>
+				<span>.</span>
 			</li>
 			<li class="list-item">
-				For each specific gradient, test both OKLAB and OKLCH for interpolation
-				space, compare the results and pick the one you prefer.
+				Test both
+				<code class="interpolation">OKLAB</code>
+				and
+				<code class="interpolation polar">OKLCH</code>
+				for interpolation space, compare the results and pick the one you
+				prefer.
 			</li>
 		</ol>
 
@@ -138,42 +149,94 @@
 			<span>,&nbsp;</span>
 			<span class="color-stop">&lt;color-stop-fn-2&gt;</span>
 			<span>);</span>
+
 			<br />
+
 			<span>background: linear-gradient(</span>
 			<span class="direction">to right</span>
 			<span>&nbsp;in&nbsp;</span>
 			<span class="interpolation-space">oklab</span>
 			<span>,&nbsp;</span>
-			<span class="color-stop">hsl(. . .)</span>
+			<span class="color-stop">hsl()</span>
 			<span>,&nbsp;</span>
-			<span class="color-stop">hsl(. . .)</span>
+			<span class="color-stop">hsl()</span>
 			<span>);</span>
 		</p>
 
-		<li class="list-headline">Default values</li>
+		<li class="list-headline">Glossary</li>
 		<ol class="list-lvl-2">
 			<li class="list-item">
-				Colors expressed in hexadecimal notation belong to the RGB color space;
-				the HEX format is merely an alternative syntax for RGB color function,
-				representing the same RGB values.
+				Color space - a defined range of colors and a specific method for
+				organizing and representing them numerically. A color space can be
+				rectangular or polar (cylindrical). On this page rectangular spaces and
+				functions are listed with
+				<code class="theme">rectangular</code>
+				background, while polar ones have
+				<code class="theme polar">rounded</code>
+				background.
 			</li>
 			<li class="list-item">
-				If no interpolation space is specified, gradients whose color stops are
-				defined exclusively with the RGB, HSL or HWB functions default to the
-				sRGB interpolation space. For all other cases, the gradient defaults to
-				the OKLAB interpolation space. (Chrome)
+				<span>
+					Interpolation space - Color space used for generating mid-tones in
+					gradient. On this page listed in uppercase without parentheses, on
+					purple background, like
+				</span>
+				<code class="interpolation polar">HSL</code>
+				<span>.</span>
+			</li>
+			<li class="list-item">
+				<span>
+					Color function - Function that generates a color of gradient stop.
+					Functions internally rely the same color spaces as the ones used for
+					interpolation. On this page listed in lowercase with parentheses, on
+					pink background, like
+				</span>
+				<code class="function polar">hsl()</code>
+				<span>, or in the case of hexadecimal colors; &nbsp;</span>
+				<code class="function">#hex</code>
+				<span>.</span>
+				<span>
+					Colors expressed in hexadecimal notation belong to the sRGB color
+					space; the #hex format is just an alternative syntax for rgb() color
+					function, representing the same rgb() values.
+				</span>
+			</li>
+			<li class="list-item">
+				<code class="engine">Blink</code>
+				engine is a browser rendering engine of Chrome, Opera, Edge, Brave,
+				Samsung Internet, DuckDuckGo Private Browser and many other.
+				<code class="engine">Gecko</code>
+				engine is used by Firefox and its forks.
+				<code class="engine">WebKit</code>
+				engine is used by all browsers running on iOS and by Safari on macOS.
 			</li>
 		</ol>
 
 		<li class="list-headline">Interpolation spaces</li>
 		<ol class="list-lvl-2">
 			<li class="list-item">
+				If no interpolation space is specified, gradients whose color stops are
+				defined exclusively with the
+				<code class="function">rgb()</code>
+				<span>,&nbsp;</span>
+				<code class="function">#hex</code>
+				<span>,&nbsp;</span>
+				<code class="function polar">hsl()</code>
+				or
+				<code class="function polar">hwb()</code>
+				functions default to the
+				<code class="interpolation">sRGB</code>
+				interpolation space. For all other cases, the gradient defaults to the
+				<code class="interpolation">OKLAB</code>
+				interpolation space.
+			</li>
+			<li class="list-item">
 				The interpolation space has a significantly greater impact on the
 				resulting color gradient quality than the color stop function.
 				Specifically:
 				<ul class="list-lvl-3">
 					<li>
-						A chosen interpolation space will generally yield consistent results
+						A chosen interpolation space will mostly yield consistent results
 						across various color stop functions.
 					</li>
 					<li>
@@ -185,20 +248,30 @@
 				primary factor in achieving the desired color gradient fidelity.
 			</li>
 			<li class="list-item">
-				OKLAB and OKLCH are the only viable color interpolation spaces. All
-				others are deemed too inconsistent across variations in hue, lightness,
-				and saturation, as well as between different browsers, making them
-				unsuitable for reliable color work. On the other hand, while OKLAB and
-				OKLCH spaces offer the most reliable quality, they each present specific
+				<code class="interpolation">OKLAB</code>
+				and
+				<code class="interpolation polar">OKLCH</code>
+				are the only viable color interpolation spaces. All others are deemed
+				low-quality or too inconsistent across variations in hue, lightness, and
+				saturation, as well as between different browsers, making them
+				unsuitable for reliable color work. On the other hand, while those color
+				spaces offer the most reliable quality, they each present specific
 				limitations; therefore, direct comparison between the two is essential
 				to determine the optimal visual outcome.
 			</li>
 			<li class="list-item">
-				Using any polar color space like HSL, HWB or LCH as the interpolation
-				color space is strongly discouraged. These spaces frequently produce
-				inconsistent mid-tone results when combined with any color function, and
-				they often introduce unintended colors into gradients. The only polar
-				color space that works consistently is OKLCH.
+				Using any polar color space like
+				<code class="interpolation polar">HSL</code>
+				<span>,&nbsp;</span>
+				<code class="interpolation polar">HWB</code>
+				or
+				<code class="interpolation polar">LCH</code>
+				as the interpolation color space is strongly discouraged. These spaces
+				frequently produce inconsistent mid-tone results when combined with any
+				color function, and they often introduce unintended colors into
+				gradients. The only polar color space that works consistently is
+				<code class="interpolation polar">OKLCH</code>
+				<span>.</span>
 			</li>
 		</ol>
 
@@ -207,32 +280,72 @@
 			<li class="list-item">
 				Viable color functions for defining color stops are:
 				<ul class="list-lvl-3">
-					<li>In OKLAB interpolation: RGB, HEX, HSL, HWB, OKLAB, OKLCH</li>
-					<li>In OKLCH interpolation: RGB, HEX, HSL, HWB</li>
+					<li>
+						In
+						<code class="interpolation polar">OKLAB</code>
+						interpolation:
+						<code class="function">rgb()</code>
+						<span>,&nbsp;</span>
+						<code class="function">#hex</code>
+						<span>,&nbsp;</span>
+						<code class="function polar">hsl()</code>
+						<span>,&nbsp;</span>
+						<code class="function polar">hwb()</code>
+						<span>,&nbsp;</span>
+						<code class="function">oklab()</code>
+						<span>,&nbsp;</span>
+						<code class="function polar">oklch()</code>
+						<span>.</span>
+					</li>
+					<li>
+						In
+						<code class="interpolation polar">OKLCH</code>
+						interpolation:
+						<code class="function">rgb()</code>
+						<span>,&nbsp;</span>
+						<code class="function">#hex</code>
+						<span>,&nbsp;</span>
+						<code class="function polar">hsl()</code>
+						<span>,&nbsp;</span>
+						<code class="function polar">hwb()</code>
+						<span>.</span>
+					</li>
 				</ul>
 			</li>
-			<li class="list-item">All others are too incosistent across browsers</li>
+			<li class="list-item">
+				All others functions either don't work as they should or are incosistent
+				across browsers, or both.
+			</li>
 		</ol>
 
-		<li class="list-headline">Additional notes</li>
+		<li class="list-headline">Additional observations</li>
 		<ol class="list-lvl-2">
 			<li class="list-item">
-				If one of the color stops is a pure white color, use OKLAB for
-				interpolation, as in those conditions OKLCH in Chrome, Opera, Edge and
-				Safari adds extra colors to mid-tones.
+				If a gradient has neighboring color stops that differ in hue by 60 or
+				more degrees, use
+				<code class="interpolation polar">OKLCH</code>
+				for interpolation, as in those conditions
+				<code class="interpolation">OKLAB</code>
+				adds grayish mid-tones.
 			</li>
 			<li class="list-item">
-				If a gradient has neighboring color stops that differ by 60 or more
-				degrees in hue, OKLCH will in most situations preform better than OKLAB,
-				as OKLAB adds grayish mid-tones.
+				<code class="engine">Blink</code>
+				browsers with
+				<code class="interpolation polar">OKLCH</code>
+				interpolation add unwanted extra colors to mid-tones of the gradient if
+				one of the color stops is a pure
+				<span style="background: white">white</span>
+				color.
 			</li>
 			<li class="list-item">
-				Firefox can not properly render conic gradients. Colors are fine, but
-				the gradient has too sharp hue steps.
+				<code class="engine">Gecko</code>
+				browsers can't properly render conic gradients. Colors are fine, but the
+				gradient has too sharp hue steps.
 			</li>
 			<li class="list-item">
-				Absurdly, Chrome, Opera and Edge can not properly render gradients which
-				use the same OKLCH for both interpolation space and color function.
+				<code class="engine">Blink</code>
+				browsers can't properly render gradients which use the same OKLCH for
+				both interpolation space and color function.
 			</li>
 			<li class="list-item">
 				If one of the color stops is a pure white color, Chrome, Opera, Edge and

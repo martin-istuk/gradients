@@ -21,7 +21,7 @@
 	gap: 8px;
 	border-radius: 9999px;
 	padding: 8px 16px;
-	background: var(--primary);
+	background: var(--theme);
 	color: white;
 	cursor: pointer;
 
@@ -46,7 +46,7 @@
 		border-radius: 9999px;
 		height: 40px;
 		padding: 6px;
-		background: var(--primary);
+		background: var(--theme);
 	}
 }
 
@@ -76,7 +76,7 @@
 	width: calc(100% - 4px);
 	height: calc(100% - 4px);
 	min-height: 40px;
-	background: var(--primary);
+	background: var(--function);
 	padding: 4px;
 	color: white;
 	font-size: 10px;
@@ -89,6 +89,7 @@
 }
 
 .interpolation-space-btn {
+	background: var(--interpolation);
 	white-space: nowrap;
 }
 
@@ -148,18 +149,44 @@
 	}
 }
 
+code {
+	padding: 2px 4px;
+	color: white;
+	font-family: monospace;
+
+	&.theme {
+		background: var(--theme);
+	}
+
+	&.engine {
+		background: var(--engine);
+	}
+
+	&.interpolation {
+		background: var(--interpolation);
+	}
+
+	&.function {
+		background: var(--function);
+	}
+
+	&.polar {
+		border-radius: 9999px;
+	}
+}
+
 .direction {
-	color: rgb(255, 129, 150);
+	color: hsl(350, 100%, 79%);
 	font: inherit;
 }
 
 .interpolation-space {
-	color: limegreen;
+	color: hsl(120, 85%, 64%);
 	font: inherit;
 }
 
 .color-stop {
-	color: yellow;
+	color: hsl(60, 100%, 54%);
 	font: inherit;
 }
 
