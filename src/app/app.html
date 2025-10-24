@@ -445,6 +445,57 @@
 			</div>
 		</ol>
 
+		<li class="list-headline">Hopes for the future</li>
+		<ol class="list-lvl-2">
+			<li class="list-item">
+				<code class="engine">Blink</code>
+				and
+				<code class="engine">WebKit</code>
+				properly render mid-tones in
+				<code class="interpolation polar">OKLCH</code>
+				interpolation, without adding extra colors.
+			</li>
+			<li class="list-item">
+				<code class="engine">Gecko</code>
+				doing the same with
+				<code class="function">color("xyz-d65")</code>
+				color function in
+				<code class="interpolation polar">OKLCH</code>
+				interpolation.
+			</li>
+			<li class="list-item">
+				Once either of these implementations are fixed, we will have a
+				consistent, cross-engine solution for perceptually uniform color
+				rendering.
+			</li>
+			<li class="list-item">BUT...</li>
+			<li class="list-item">
+				Either of those will only provide a unified solution for standard gamut
+				displays. For wide gamut displays, we need to wait until
+				<code class="engine">Blink</code>
+				and
+				<code class="engine">WebKit</code>
+				fix mid-tones interpolation in
+				<code class="interpolation polar">OKLCH</code>
+				when using
+				<code class="function">oklab()</code>
+				and
+				<code class="function polar">oklch()</code>
+				color functions.
+			</li>
+			<li class="list-item">
+				At that point, standard gamut color functions like
+				<code class="function">rgb()</code>
+				or
+				<code class="function polar">hsl()</code>
+				can finally be phased out in favor of wide gamut color functions like
+				<code class="function">oklab()</code>
+				and
+				<code class="function polar">oklch()</code>
+				, enabling richer and more accurate color representation.
+			</li>
+		</ol>
+
 		<li class="list-headline">Environment</li>
 		<ol class="list-lvl-2">
 			<li class="list-item">
