@@ -39,7 +39,7 @@ export class App {
 
 	public constants = constants;
 
-	public columnCount = signal(constants.allColorSpaces.length + 1);
+	public columnCount = signal(constants.allColorFunctions.length + 1);
 	public rowCount = signal(constants.allInterpolationSpaces.length + 1);
 
 	public rotate(): void {
@@ -65,7 +65,7 @@ export class App {
 
 	private table = viewChild.required<ElementRef<HTMLDivElement>>("table");
 
-	public removeColorStop(space: string): void {
+	public removeColorFunction(space: string): void {
 		const table = this.table().nativeElement;
 		Array.from(table.children).forEach((element) => {
 			const div = element as HTMLDivElement;

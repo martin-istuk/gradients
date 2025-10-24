@@ -49,25 +49,14 @@
 	<div
 		#table
 		class="table"
-		[style.gridTemplateColumns]="
+		[style.gridTemplateRows]="
 			'min-content repeat(' + (columnCount() - 1) + ', 1fr)'
 		"
-		[style.gridTemplateRows]="
+		[style.gridTemplateColumns]="
 			'min-content repeat(' + (rowCount() - 1) + ', 1fr)'
 		"
 	>
 		<div></div>
-
-		@for (space of constants.allColorSpaces; track $index) {
-			<button
-				class="color-stop-btn function"
-				[class.polar]="['hsl', 'hwb', 'lch', 'oklch'].includes(space)"
-				[attr.data-color-stop-space]="'data-color-stop-space-' + space"
-				(click)="removeColorStop(space)"
-			>
-				{{ getColorFunctionLabel(space) }}
-			</button>
-		}
 
 		@for (
 			interpolationSpace of constants.allInterpolationSpaces;
@@ -85,15 +74,29 @@
 			>
 				{{ interpolationSpace | uppercase }}
 			</button>
+		}
 
-			@for (space of constants.allColorSpaces; track $index) {
+		@for (function of constants.allColorFunctions; track $index) {
+			<button
+				class="color-stop-btn function"
+				[class.polar]="['hsl', 'hwb', 'lch', 'oklch'].includes(function)"
+				[attr.data-color-stop-space]="'data-color-stop-space-' + function"
+				(click)="removeColorFunction(function)"
+			>
+				{{ getColorFunctionLabel(function) }}
+			</button>
+
+			@for (
+				interpolationSpace of constants.allInterpolationSpaces;
+				track $index
+			) {
 				<div
 					class="gradient"
-					[attr.data-color-stop-space]="'data-color-stop-space-' + space"
+					[attr.data-color-stop-space]="'data-color-stop-space-' + function"
 					[attr.data-interpolation-space]="
 						'data-interpolation-space-' + interpolationSpace
 					"
-					[style.background]="getGradient(interpolationSpace, space)"
+					[style.background]="getGradient(interpolationSpace, function)"
 					[style.border]="showBorders ? 'solid black' : null"
 					[style.border-width]="showBorders ? '0 1px 1px 0' : null"
 				></div>
@@ -173,7 +176,7 @@
 		<li class="list-headline">Glossary</li>
 
 		<div class="signs">
-			<code class="engine">Rendering Engine = green</code>
+			<code class="engine">Rendering Engine = green hexagon</code>
 			<code class="function">color function = lowercase pink</code>
 			<code class="interpolation">INTERPOLATION SPACE = uppercase purple</code>
 			<code class="theme">rectangular color space = rectangular box</code>
@@ -401,9 +404,9 @@
 						</span>
 					</li>
 					<li>
-						Both interpolation methods are considered viable, and the choice
-						between them ultimately depends on the specific design requirements
-						of the gradient.
+						In this situation, both interpolation methods are considered viable,
+						and the choice between them ultimately depends on the specific
+						design requirements of the gradient.
 					</li>
 				</ul>
 			</li>
@@ -433,9 +436,8 @@
 					</svg>
 				</div>
 				<p class="note">
-					This color wheel provides a simplified illustration, yet effectively
-					demonstrates the distinction between polar and rectangular
-					interpolation.
+					This color wheel, in a simplified manner, demonstrates the distinction
+					between polar and rectangular interpolation.
 				</p>
 			</div>
 		</ol>
@@ -461,12 +463,10 @@
 			<li class="list-item">
 				Once either of these implementations are fixed, we will have a
 				consistent, cross-engine solution for perceptually uniform color
-				rendering.
+				rendering for standard gamut displays.
 			</li>
-			<li class="list-item">BUT...</li>
 			<li class="list-item">
-				Either of those will only provide a unified solution for standard gamut
-				displays. For wide gamut displays, we need to wait until
+				For wide gamut displays, we need to wait until
 				<code class="engine">Blink</code>
 				and
 				<code class="engine">WebKit</code>
@@ -476,18 +476,12 @@
 				<code class="function">oklab()</code>
 				and
 				<code class="function polar">oklch()</code>
-				color functions.
-			</li>
-			<li class="list-item">
-				At that point, standard gamut color functions like
+				color functions. At that point, standard gamut color functions like
 				<code class="function">rgb()</code>
 				or
 				<code class="function polar">hsl()</code>
-				can finally be phased out in favor of wide gamut color functions like
-				<code class="function">oklab()</code>
-				and
-				<code class="function polar">oklch()</code>
-				, enabling richer and more accurate color representation.
+				can finally be phased out in favor of wide gamut color functions,
+				enabling richer and more accurate color representation.
 			</li>
 		</ol>
 

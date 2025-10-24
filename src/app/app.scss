@@ -100,6 +100,7 @@
 	color: rgb(59, 59, 59);
 	font-size: 12px;
 	text-align: center;
+	text-wrap-style: balance;
 }
 
 .signs {
@@ -167,7 +168,7 @@ code {
 }
 
 .theme {
-	background: color(from var(--theme) srgb r g b / 30%);
+	background: color(from var(--theme) srgb r g b / 20%);
 	color: var(--theme);
 }
 
@@ -181,17 +182,17 @@ code {
 		12px 100%
 	);
 	padding: 2px 8px;
-	background: color(from var(--engine) srgb r g b / 30%);
+	background: color(from var(--engine) srgb r g b / 20%);
 	color: var(--engine);
 }
 
 .interpolation {
-	background: color(from var(--interpolation) srgb r g b / 30%);
+	background: color(from var(--interpolation) srgb r g b / 20%);
 	color: var(--interpolation);
 }
 
 .function {
-	background: color(from var(--function) srgb r g b / 30%);
+	background: color(from var(--function) srgb r g b / 20%);
 	color: var(--function);
 }
 
