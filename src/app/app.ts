@@ -34,7 +34,7 @@ export class App {
 		initialValue: this.form.value,
 	});
 
-	public showBorders = false;
+	public showBorders = true;
 	public direction = "to right";
 
 	public constants = constants;
