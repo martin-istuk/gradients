@@ -198,8 +198,8 @@
 			<li class="list-item">
 				<span>
 					Color function - Function that generates a color of gradient stop.
-					Functions internally rely the same color spaces as the ones used for
-					interpolation.
+					Functions internally rely on the same color spaces as the ones used
+					for interpolation.
 				</span>
 
 				<span>
@@ -212,7 +212,7 @@
 			<li class="list-item">
 				<code class="engine">Blink</code>
 				engine is a browser rendering engine of Chrome, Opera, Edge, Brave,
-				Samsung Internet, DuckDuckGo Private Browser and many other.
+				Samsung Internet, DuckDuckGo Private Browser and many others.
 				<code class="engine">Gecko</code>
 				engine is used by Firefox and its forks.
 				<code class="engine">WebKit</code>
@@ -360,7 +360,7 @@
 				browsers with
 				<code class="interpolation polar">OKLCH</code>
 				interpolation add unwanted extra colors to mid-tones of the gradient if
-				one of the color stops is a greyscale color.
+				one of the color stops is white or greyscale color.
 				<div class="blue-bug">
 					<div class="oklab">oklab</div>
 					<div class="oklch">oklch</div>
@@ -384,10 +384,10 @@
 						<span>
 							Rectangular color spaces interpolate along a straight line across
 							the color wheel. This path often passes near the achromatic
-							center, causing a significant loss of saturation (a "graying out"
-							or muddying) in the mid-tones of the gradient, especially with
-							complementary colors. In the pink-to-blue example, the blue
-							component tends to dominate the final gradient appearance.
+							center, causing a significant loss of saturation in the mid-tones
+							of the gradient, especially with complementary colors. In the
+							pink-to-blue example, the blue component tends to dominate the
+							final gradient appearance.
 						</span>
 					</li>
 					<li>
