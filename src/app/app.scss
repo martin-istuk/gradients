@@ -73,7 +73,7 @@
 	height: calc(100% - 4px);
 	min-height: 40px;
 	padding: 4px;
-	font-size: 14px;
+	font-size: clamp(10px, 0.5vw, 18px);
 	text-align: center;
 	word-break: break-all;
 	cursor: pointer;
